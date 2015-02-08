@@ -23,5 +23,14 @@
     <Setting Name="SBDThreshold" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.7</Value>
     </Setting>
+    <Setting Name="FromDevice" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DeviceNumber" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="FileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MotoGPSlowMotion.avi</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

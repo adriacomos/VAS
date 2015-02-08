@@ -18,6 +18,7 @@ using GraphicsService;
 using cvfn;
 using System.Text.RegularExpressions;
 using VAS.Properties;
+using System.Threading;
 
 
 
@@ -28,6 +29,8 @@ namespace VAS
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        Timer readStateTimer;
 
         class ConfigInfo
         {
@@ -45,7 +48,7 @@ namespace VAS
         public MainWindow()
         {
             InitializeComponent();
-
+            
             mComputerVisionManager = new ComputerVisionManager();
 
             TxtTCPAddress.Text = Settings.Default.TCPAddress;
@@ -55,6 +58,13 @@ namespace VAS
             TxtAreaTracking.Text = Settings.Default.AnchorSize;
             ChkActivateSBD.IsChecked = Settings.Default.SBDActive;
             TxtSBDThreshold.Text = Settings.Default.SBDThreshold.ToString("N2");
+            if (Settings.Default.FromDevice)
+                RadFromDevice.IsChecked = true;
+            else
+                RadFromFile.IsChecked = true;
+
+            TxtFileName.Text = Settings.Default.FileName;
+            TxtDeviceNumber.Text = Settings.Default.DeviceNumber.ToString();
         }
 
 
@@ -134,7 +144,11 @@ namespace VAS
 
 
             double sbdThreshold = 0.0;
-            bool sbd = ChkActivateSBD.IsChecked.Value;
+            bool sbd = false;
+            if (ChkActivateSBD.IsChecked != null)
+            {
+                sbd = ChkActivateSBD.IsChecked.Value;
+            }
             if (sbd)
             {
                 Double.TryParse(TxtSBDThreshold.Text, out sbdThreshold);
@@ -246,6 +260,14 @@ namespace VAS
         private void StartTracker_Checked(object sender, RoutedEventArgs e)
         {
             ConfigInfo cfgInfo = new ConfigInfo();
+
+            bool fromDevice = RadFromDevice.IsChecked.Value;
+
+            string fileName = TxtFileName.Text;
+            int device;
+            Int32.TryParse(TxtDeviceNumber.Text, out device);
+
+
             if (getAndValidateConfig(cfgInfo))
             {
                 mComputerVisionManager.setSingleFeatureTrackCtrl(cfgInfo.ProcessorTech,
@@ -254,24 +276,46 @@ namespace VAS
                     cfgInfo.ActivateSBD,
                     cfgInfo.ThresholdSBD);
 
-                mComputerVisionManager.startVideoProcessorFromFile("MotoGPSlowMotion.avi");
+                if (fromDevice)
+                    mComputerVisionManager.startVideoProcessorFromDevice(device);
+                else
+                    mComputerVisionManager.startVideoProcessorFromFile(fileName);
             }
 
             
             Settings.Default.AnchorSize = TxtAreaTracking.Text;
             Settings.Default.SBDActive = ChkActivateSBD.IsChecked.Value;
             Settings.Default.SBDThreshold = cfgInfo.ThresholdSBD;
+            Settings.Default.FromDevice = fromDevice;
+            Settings.Default.DeviceNumber = device;
+            Settings.Default.FileName = fileName;
             Settings.Default.Save();
 
 
             StartTracker.Content = "Stop Tracker";
 
+            readStateTimer = new Timer(readStateCallback, null, 0, 250);
+
+        }
+
+        private void readStateCallback(object obj)
+        {
+            this.Dispatcher.Invoke(delegate()
+            {
+                long pfr = mComputerVisionManager.getPotentialFrameRate();
+                double avg = mComputerVisionManager.getAverageFrameTime();
+
+                TxtPotentialFR.Content = pfr.ToString();
+                TxtAverageFrameTime.Content = avg.ToString("N2");
+            });
         }
 
         private void StartTracker_Unchecked(object sender, RoutedEventArgs e)
         {
             mComputerVisionManager.stopVideoProcessor();
             StartTracker.Content = "Start Tracker";
+
+            
         }
 
         private void ChkConnectVIZ_Click(object sender, RoutedEventArgs e)
