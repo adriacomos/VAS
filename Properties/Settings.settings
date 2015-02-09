@@ -32,5 +32,8 @@
     <Setting Name="FileName" Type="System.String" Scope="User">
       <Value Profile="(Default)">MotoGPSlowMotion.avi</Value>
     </Setting>
+    <Setting Name="VIZSceneName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">/MotoGP/Scenes/AnchorScn</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

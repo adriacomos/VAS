@@ -65,6 +65,7 @@ namespace VAS
 
             TxtFileName.Text = Settings.Default.FileName;
             TxtDeviceNumber.Text = Settings.Default.DeviceNumber.ToString();
+            TxtScene.Text = Settings.Default.VIZSceneName;
         }
 
 
@@ -76,8 +77,9 @@ namespace VAS
                 IPAddress.Parse( udpadd ),
                 udpport );
 
+            string sceneName = TxtScene.Text;
 
-            mGraphicsService = GraphicsServiceVAS0Factory.Create(paramsVIZ, "AnchorScene", mComputerVisionManager);
+            mGraphicsService = GraphicsServiceVAS0Factory.Create(paramsVIZ, sceneName, mComputerVisionManager);
 
             mGraphicsService.RenderEngine.CommandValueSentEvent += RenderEngine_CommandValueSentEvent;
             mGraphicsService.RenderEngine.CommandAnimationSentEvent += RenderEngine_CommandAnimationSentEvent;
@@ -296,6 +298,11 @@ namespace VAS
 
             readStateTimer = new Timer(readStateCallback, null, 0, 250);
 
+            ChkAnchor.IsEnabled = true;
+            ChkAnchor2.IsEnabled = true;
+            ChkAnchor3.IsEnabled = true;
+            
+
         }
 
         private void readStateCallback(object obj)
@@ -315,6 +322,10 @@ namespace VAS
             mComputerVisionManager.stopVideoProcessor();
             StartTracker.Content = "Start Tracker";
 
+            ChkAnchor.IsEnabled = false;
+            ChkAnchor2.IsEnabled = false;
+            ChkAnchor3.IsEnabled = false;
+            
             
         }
 
@@ -330,6 +341,8 @@ namespace VAS
             Settings.Default.UDPAddress = TxtUDPAddress.Text;
             Settings.Default.TCPPort = tcpPort;
             Settings.Default.UDPPort = udpPort;
+            Settings.Default.VIZSceneName = TxtScene.Text;
+
             Settings.Default.Save();
 
             
@@ -350,6 +363,12 @@ namespace VAS
         private void ChkActivateSBD_Unchecked(object sender, RoutedEventArgs e)
         {
             TxtSBDThreshold.IsEnabled = false;
+        }
+
+        private void Help_Click(object sender, RoutedEventArgs e)
+        {
+            Help wnd = new Help();
+
         }
 
 
