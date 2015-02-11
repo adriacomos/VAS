@@ -35,12 +35,17 @@ namespace VAS
         class ConfigInfo
         {
             public cvfn.ProcessorTechnology  ProcessorTech;
-            public cvfn.Rect                 AreaTracking;
-            public uint                 MinPoints;
-            public bool                 ActivateSBD;
-            public double               ThresholdSBD;
+            public cvfn.Rect    AreaTracking;
+            public uint         MinPoints;
+            public bool         ActivateSBD;
+            public double       ThresholdSBD;
+            public bool         ResizeFrame;
+            public cvfn.Size2D  ResizeFrameSize;
+  
 
         }
+
+        bool mSliderUpdateByFilm = false;
 
         IGraphicsService mGraphicsService;
         IComputerVisionManager mComputerVisionManager; // = new ComputerVisionManager();
@@ -66,6 +71,8 @@ namespace VAS
             TxtFileName.Text = Settings.Default.FileName;
             TxtDeviceNumber.Text = Settings.Default.DeviceNumber.ToString();
             TxtScene.Text = Settings.Default.VIZSceneName;
+            TxtResizeAt.Text = Settings.Default.FrameWorkingSize;
+            ChkResize.IsChecked = Settings.Default.ActivateResize;
         }
 
 
@@ -120,13 +127,15 @@ namespace VAS
         {
             string areaInput = TxtAreaTracking.Text;
             string errMessage = "";
-            if (!Regex.IsMatch( areaInput, @"^[0-9]+,([0-9]+){1}$" )) 
+            int[] sizeAreaTracking = new int[2];
+            if (!Regex.IsMatch(areaInput, @"^[0-9]+,([0-9]+){1}$"))
             {
                 errMessage += "Area Tracking debe ser Width,Height \n";
-                return false;
             }
-
-            int [] size = Array.ConvertAll(areaInput.Split(','), int.Parse);
+            else
+            {
+                sizeAreaTracking = Array.ConvertAll(areaInput.Split(','), int.Parse);
+            }
 
             
             int minPoints;
@@ -162,6 +171,24 @@ namespace VAS
 
             }
 
+            bool resizeFrame = false;
+            if (ChkResize.IsChecked != null)
+            {
+                resizeFrame = ChkResize.IsChecked.Value;
+            }
+
+            int[] sizeFrame = new int[2];
+            if (resizeFrame)
+            {
+                string resizeSize = TxtResizeAt.Text;
+                if (!Regex.IsMatch(resizeSize, @"^[0-9]+,([0-9]+){1}$"))
+                {
+                    errMessage += "Area Tracking debe ser Width,Height \n";
+                }
+
+                sizeFrame = Array.ConvertAll(resizeSize.Split(','), int.Parse);
+            }
+
             if (errMessage != "")
             {
                 MessageBox.Show(errMessage);
@@ -170,7 +197,9 @@ namespace VAS
 
             cf.ProcessorTech = ptech;
             cf.MinPoints = (uint)minPoints;
-            cf.AreaTracking = new cvfn.Rect(400, 400, size[0], size[1]);
+            cf.AreaTracking = new cvfn.Rect(400, 400, sizeAreaTracking[0], sizeAreaTracking[1]);
+            cf.ResizeFrame = resizeFrame;
+            cf.ResizeFrameSize = new cvfn.Size2D( sizeFrame[0], sizeFrame[1] );
             cf.ActivateSBD = sbd;
             cf.ThresholdSBD = sbdThreshold;
 
@@ -279,9 +308,9 @@ namespace VAS
                     cfgInfo.ThresholdSBD);
 
                 if (fromDevice)
-                    mComputerVisionManager.startVideoProcessorFromDevice(device);
+                    mComputerVisionManager.startVideoProcessorFromDevice(device, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize );
                 else
-                    mComputerVisionManager.startVideoProcessorFromFile(fileName);
+                    mComputerVisionManager.startVideoProcessorFromFile(fileName, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize );
             }
 
             
@@ -291,6 +320,8 @@ namespace VAS
             Settings.Default.FromDevice = fromDevice;
             Settings.Default.DeviceNumber = device;
             Settings.Default.FileName = fileName;
+            Settings.Default.ActivateResize = cfgInfo.ResizeFrame;
+            Settings.Default.FrameWorkingSize = TxtResizeAt.Text;
             Settings.Default.Save();
 
 
@@ -311,9 +342,15 @@ namespace VAS
             {
                 long pfr = mComputerVisionManager.getPotentialFrameRate();
                 double avg = mComputerVisionManager.getAverageFrameTime();
+                double pct = mComputerVisionManager.getRelativeVideoProgression();
+
 
                 TxtPotentialFR.Content = pfr.ToString();
                 TxtAverageFrameTime.Content = avg.ToString("N2");
+
+                mSliderUpdateByFilm = true;
+                SlVideoProgression.Value = pct;
+                mSliderUpdateByFilm = false;
             });
         }
 
@@ -371,7 +408,13 @@ namespace VAS
 
         }
 
+        private void SlVideoProgression_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!mSliderUpdateByFilm)
+                mComputerVisionManager.setRelativeVideoProgression(e.NewValue);
+        }
 
+ 
 
 
     }

@@ -35,5 +35,11 @@
     <Setting Name="VIZSceneName" Type="System.String" Scope="User">
       <Value Profile="(Default)">/MotoGP/Scenes/AnchorScn</Value>
     </Setting>
+    <Setting Name="FrameWorkingSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ActivateResize" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -154,5 +154,29 @@ namespace VAS.Properties {
                 this["VIZSceneName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FrameWorkingSize {
+            get {
+                return ((string)(this["FrameWorkingSize"]));
+            }
+            set {
+                this["FrameWorkingSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ActivateResize {
+            get {
+                return ((bool)(this["ActivateResize"]));
+            }
+            set {
+                this["ActivateResize"] = value;
+            }
+        }
     }
 }

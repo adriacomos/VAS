@@ -30,16 +30,17 @@
         <Label x:Name="TxtPotentialFR" Content="0" HorizontalAlignment="Left" Margin="612,35,0,0" VerticalAlignment="Top" Width="49"/>
         <Label Content="Avg Frame Time:" HorizontalAlignment="Left" Margin="508,66,0,0" VerticalAlignment="Top" Height="26" Width="99"/>
         <Label x:Name="TxtAverageFrameTime" Content="0" HorizontalAlignment="Left" Margin="612,66,0,0" VerticalAlignment="Top" Width="49"/>
-        <TextBox x:Name="TxtFileName" HorizontalAlignment="Left" Height="23" Margin="126,119,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="178"/>
-        <TextBox x:Name="TxtDeviceNumber" HorizontalAlignment="Left" Height="23" Margin="126,147,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="24"/>
+        <TextBox x:Name="TxtFileName" HorizontalAlignment="Left" Height="23" Margin="126,119,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="309"/>
+        <TextBox x:Name="TxtDeviceNumber" HorizontalAlignment="Left" Height="23" Margin="126,184,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="24"/>
         <RadioButton x:Name="RadFromFile" Content="From File" GroupName="Source" HorizontalAlignment="Left" Margin="36,123,0,0" VerticalAlignment="Top" IsChecked="True"/>
-        <RadioButton x:Name="RadFromDevice" Content="From Device" GroupName="Source" HorizontalAlignment="Left" Margin="36,150,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <RadioButton x:Name="RadFromDevice" Content="From Device" GroupName="Source" HorizontalAlignment="Left" Margin="36,187,0,0" VerticalAlignment="Top" IsChecked="True"/>
         <Label Content="TCP" HorizontalAlignment="Left" Height="26" Margin="34,41,0,0" VerticalAlignment="Top" Width="36"/>
         <Label Content="UDP" HorizontalAlignment="Left" Height="26" Margin="34,66,0,0" VerticalAlignment="Top" Width="36"/>
         <TextBox x:Name="TxtScene" HorizontalAlignment="Left" Height="26" Margin="36,15,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="268"/>
         <Button x:Name="Help" Content="Help" HorizontalAlignment="Left" Height="26" Margin="577,273,0,0" VerticalAlignment="Top" Width="84" Click="Help_Click"/>
-        <CheckBox x:Name="ChkResize" Content="Resize at:" HorizontalAlignment="Left" Height="20" Margin="36,178,0,0" VerticalAlignment="Top" Width="91"/>
-        <TextBox x:Name="TxtResizeAt" HorizontalAlignment="Left" Height="23" Margin="126,175,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="94"/>
+        <CheckBox x:Name="ChkResize" Content="Resize at:" HorizontalAlignment="Left" Height="20" Margin="36,248,0,0" VerticalAlignment="Top" Width="91"/>
+        <TextBox x:Name="TxtResizeAt" HorizontalAlignment="Left" Height="23" Margin="126,245,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="94"/>
+        <Slider x:Name="SlVideoProgression" HorizontalAlignment="Left" Height="23" Margin="36,147,0,0" VerticalAlignment="Top" Width="548" Maximum="1" SmallChange="0.001" ValueChanged="SlVideoProgression_ValueChanged"/>
 
     </Grid>
 </Window>
