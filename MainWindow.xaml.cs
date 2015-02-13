@@ -344,6 +344,8 @@ namespace VAS
                 double avg = mComputerVisionManager.getAverageFrameTime();
                 double pct = mComputerVisionManager.getRelativeVideoProgression();
 
+                Dictionary<string, string> debugInfo = mComputerVisionManager.getDebugInfo();
+
 
                 TxtPotentialFR.Content = pfr.ToString();
                 TxtAverageFrameTime.Content = avg.ToString("N2");
@@ -406,12 +408,19 @@ namespace VAS
         {
             Help wnd = new Help();
 
+            wnd.Show();
+
         }
 
         private void SlVideoProgression_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (!mSliderUpdateByFilm)
                 mComputerVisionManager.setRelativeVideoProgression(e.NewValue);
+        }
+
+        private void TxtInterFrameAnchorDisp_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
 
  
