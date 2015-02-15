@@ -34,15 +34,15 @@ namespace VAS
 
         class ConfigInfo
         {
-            public cvfn.ProcessorTechnology  ProcessorTech;
-            public cvfn.Rect    AreaTracking;
-            public uint         MinPoints;
-            public bool         ActivateSBD;
-            public double       ThresholdSBD;
-            public bool         ResizeFrame;
-            public cvfn.Size2D  ResizeFrameSize;
-  
-
+            public cvfn.ProcessorTechnology ProcessorTech;
+            public cvfn.Rect AreaTracking;
+            public uint MinPoints;
+            public bool ActivateSBD;
+            public double ThresholdSBD;
+            public bool ResizeFrame;
+            public cvfn.Size2D ResizeFrameSize;
+            public cvfn.Size2D CaptureFrameSize;
+            public double CaptureFrameRate;
         }
 
         bool mSliderUpdateByFilm = false;
@@ -73,6 +73,8 @@ namespace VAS
             TxtScene.Text = Settings.Default.VIZSceneName;
             TxtResizeAt.Text = Settings.Default.FrameWorkingSize;
             ChkResize.IsChecked = Settings.Default.ActivateResize;
+            TxtCaptureResolution.Text = Settings.Default.CaptureResolution;
+            TxtCaptureFrameRate.Text = Settings.Default.CaptureFrameRate.ToString("N2");
         }
 
 
@@ -189,12 +191,31 @@ namespace VAS
                 sizeFrame = Array.ConvertAll(resizeSize.Split(','), int.Parse);
             }
 
+
+            if (RadFromDevice.IsChecked.Value)
+            {
+                int[] captureFrameSize = new int[2];
+                if (!Regex.IsMatch(areaInput, @"^[0-9]+,([0-9]+){1}$"))
+                {
+                    errMessage += "Capture Resolution debe ser Width,Height \n";
+                }
+                else
+                {
+                    captureFrameSize = Array.ConvertAll(areaInput.Split(','), int.Parse);
+                }
+                cf.CaptureFrameSize = new cvfn.Size2D(captureFrameSize[0], captureFrameSize[1]);
+
+                double captureRate;
+                Double.TryParse( TxtCaptureFrameRate.Text, out captureRate );
+                cf.CaptureFrameRate = captureRate;
+            }
+
             if (errMessage != "")
             {
                 MessageBox.Show(errMessage);
             }
 
-
+            
             cf.ProcessorTech = ptech;
             cf.MinPoints = (uint)minPoints;
             cf.AreaTracking = new cvfn.Rect(400, 400, sizeAreaTracking[0], sizeAreaTracking[1]);
@@ -301,14 +322,14 @@ namespace VAS
 
             if (getAndValidateConfig(cfgInfo))
             {
-                mComputerVisionManager.setSingleFeatureTrackCtrl(cfgInfo.ProcessorTech,
+                mComputerVisionManager.setSingleFeatureTracker(cfgInfo.ProcessorTech,
                     cfgInfo.AreaTracking,
                     cfgInfo.MinPoints,
                     cfgInfo.ActivateSBD,
                     cfgInfo.ThresholdSBD);
 
                 if (fromDevice)
-                    mComputerVisionManager.startVideoProcessorFromDevice(device, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize );
+                    mComputerVisionManager.startVideoProcessorFromDevice(device, cfgInfo.CaptureFrameSize, cfgInfo.CaptureFrameRate, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize );
                 else
                     mComputerVisionManager.startVideoProcessorFromFile(fileName, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize );
             }
@@ -322,6 +343,8 @@ namespace VAS
             Settings.Default.FileName = fileName;
             Settings.Default.ActivateResize = cfgInfo.ResizeFrame;
             Settings.Default.FrameWorkingSize = TxtResizeAt.Text;
+            Settings.Default.CaptureResolution = TxtCaptureResolution.Text;
+            Settings.Default.CaptureFrameRate = cfgInfo.CaptureFrameRate;
             Settings.Default.Save();
 
 
