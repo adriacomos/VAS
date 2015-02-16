@@ -194,14 +194,15 @@ namespace VAS
 
             if (RadFromDevice.IsChecked.Value)
             {
+                string captureSize = TxtCaptureResolution.Text;
                 int[] captureFrameSize = new int[2];
-                if (!Regex.IsMatch(areaInput, @"^[0-9]+,([0-9]+){1}$"))
+                if (!Regex.IsMatch(captureSize, @"^[0-9]+,([0-9]+){1}$"))
                 {
                     errMessage += "Capture Resolution debe ser Width,Height \n";
                 }
                 else
                 {
-                    captureFrameSize = Array.ConvertAll(areaInput.Split(','), int.Parse);
+                    captureFrameSize = Array.ConvertAll(captureSize.Split(','), int.Parse);
                 }
                 cf.CaptureFrameSize = new cvfn.Size2D(captureFrameSize[0], captureFrameSize[1]);
 
@@ -465,6 +466,21 @@ namespace VAS
                 string filename = dlg.FileName;
                 TxtFileName.Text = filename;
             }
+        }
+
+        
+        private void BtnPausePlay_Checked(object sender, RoutedEventArgs e)
+        {
+            BtnPausePlay.Content = "Play";
+
+            mComputerVisionManager.pause(true);
+        }
+
+        
+        private void BtnPausePlay_Unchecked(object sender, RoutedEventArgs e)
+        {
+            BtnPausePlay.Content = "Pause";
+            mComputerVisionManager.pause(false);
         }
 
  
