@@ -57,7 +57,9 @@
         <ToggleButton x:Name="BtnPausePlay" Content="Pause" HorizontalAlignment="Left" Height="22" Margin="36,201,0,0" VerticalAlignment="Top" Width="46" RenderTransformOrigin="0.478,0.455" Checked="BtnPausePlay_Checked" Unchecked="BtnPausePlay_Unchecked"/>
         <GroupBox Header="VIZ" HorizontalAlignment="Left" Height="106" Margin="21,10,0,0" VerticalAlignment="Top" Width="291"/>
         <GroupBox Header="Source" HorizontalAlignment="Left" Height="170" Margin="21,121,0,0" VerticalAlignment="Top" Width="824"/>
-        <GroupBox Header="Config" HorizontalAlignment="Left" Height="224" Margin="21,296,0,0" VerticalAlignment="Top" Width="472"/>
+        <GroupBox Header="Config" HorizontalAlignment="Left" Height="224" Margin="21,296,0,0" VerticalAlignment="Top" Width="472">
+            <CheckBox x:Name="ChkSCIM" Content="SCIM - Experimental" HorizontalAlignment="Left" Height="21" Margin="218,176,0,0" VerticalAlignment="Top" Width="151" Checked="ChkSCIM_Checked" Unchecked="ChkSCIM_Unchecked"/>
+        </GroupBox>
         <GroupBox Header="Info" HorizontalAlignment="Left" Height="106" Margin="317,10,0,0" VerticalAlignment="Top" Width="528"/>
 
     </Grid>

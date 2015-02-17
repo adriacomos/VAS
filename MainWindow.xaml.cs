@@ -327,7 +327,8 @@ namespace VAS
                     cfgInfo.AreaTracking,
                     cfgInfo.MinPoints,
                     cfgInfo.ActivateSBD,
-                    cfgInfo.ThresholdSBD);
+                    cfgInfo.ThresholdSBD,
+                    ChkSCIM.IsChecked.Value);
 
                 if (fromDevice)
                     mComputerVisionManager.startVideoProcessorFromDevice(device, cfgInfo.CaptureFrameSize, cfgInfo.CaptureFrameRate, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize );
@@ -481,6 +482,16 @@ namespace VAS
         {
             BtnPausePlay.Content = "Pause";
             mComputerVisionManager.pause(false);
+        }
+
+        private void ChkSCIM_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ChkSCIM_Unchecked(object sender, RoutedEventArgs e)
+        {
+
         }
 
  
