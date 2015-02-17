@@ -113,7 +113,7 @@ namespace VAS
         {
             this.Dispatcher.Invoke(delegate()
             {
-                TxtAnchorPt.Text = e.Name + " - " + e.Value;
+                TxtAnchorPt.Text = e.Name + ": " + e.Value;
             });
         }
 
