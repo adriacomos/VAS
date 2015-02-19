@@ -43,6 +43,7 @@ namespace VAS
             public cvfn.Size2D ResizeFrameSize;
             public cvfn.Size2D CaptureFrameSize;
             public double CaptureFrameRate;
+            public uint MaxDistAnchorInterframe;
         }
 
         bool mSliderUpdateByFilm = false;
@@ -75,6 +76,7 @@ namespace VAS
             ChkResize.IsChecked = Settings.Default.ActivateResize;
             TxtCaptureResolution.Text = Settings.Default.CaptureResolution;
             TxtCaptureFrameRate.Text = Settings.Default.CaptureFrameRate.ToString("N2");
+            TxtInterFrameAnchorDisp.Text = Settings.Default.MaxAnchorDisplacement.ToString();
         }
 
 
@@ -155,6 +157,10 @@ namespace VAS
                 ptech = ProcessorTechnology.CPU;
 
 
+            uint maxDistAnchorInterframe;
+            UInt32.TryParse(TxtInterFrameAnchorDisp.Text, out maxDistAnchorInterframe);
+
+
 
             double sbdThreshold = 0.0;
             bool sbd = false;
@@ -192,24 +198,26 @@ namespace VAS
             }
 
 
-            if (RadFromDevice.IsChecked.Value)
+            string captureSize = TxtCaptureResolution.Text;
+           
+            int[] captureFrameSize = new int[2];
+            if (!Regex.IsMatch(captureSize, @"^[0-9]+,([0-9]+){1}$"))
             {
-                string captureSize = TxtCaptureResolution.Text;
-                int[] captureFrameSize = new int[2];
-                if (!Regex.IsMatch(captureSize, @"^[0-9]+,([0-9]+){1}$"))
-                {
+                if (RadFromDevice.IsChecked.Value) // sólo informar si ha sido seleccionado
+                {  
                     errMessage += "Capture Resolution debe ser Width,Height \n";
                 }
-                else
-                {
-                    captureFrameSize = Array.ConvertAll(captureSize.Split(','), int.Parse);
-                }
-                cf.CaptureFrameSize = new cvfn.Size2D(captureFrameSize[0], captureFrameSize[1]);
-
-                double captureRate;
-                Double.TryParse( TxtCaptureFrameRate.Text, out captureRate );
-                cf.CaptureFrameRate = captureRate;
             }
+            else
+            {
+                captureFrameSize = Array.ConvertAll(captureSize.Split(','), int.Parse);
+            }
+            cf.CaptureFrameSize = new cvfn.Size2D(captureFrameSize[0], captureFrameSize[1]);
+
+            double captureRate;
+            Double.TryParse(TxtCaptureFrameRate.Text, out captureRate);
+            cf.CaptureFrameRate = captureRate;
+
 
             if (errMessage != "")
             {
@@ -224,6 +232,7 @@ namespace VAS
             cf.ResizeFrameSize = new cvfn.Size2D( sizeFrame[0], sizeFrame[1] );
             cf.ActivateSBD = sbd;
             cf.ThresholdSBD = sbdThreshold;
+            cf.MaxDistAnchorInterframe = maxDistAnchorInterframe;
 
 
             return true;
@@ -323,12 +332,23 @@ namespace VAS
 
             if (getAndValidateConfig(cfgInfo))
             {
-                mComputerVisionManager.setSingleFeatureTracker(cfgInfo.ProcessorTech,
-                    cfgInfo.AreaTracking,
-                    cfgInfo.MinPoints,
-                    cfgInfo.ActivateSBD,
-                    cfgInfo.ThresholdSBD,
-                    ChkSCIM.IsChecked.Value);
+                if (!ChkSCIM.IsChecked.Value)
+                {
+                    mComputerVisionManager.setSingleFeatureTracker(cfgInfo.ProcessorTech,
+                        cfgInfo.AreaTracking,
+                        cfgInfo.MinPoints,
+                        cfgInfo.ActivateSBD,
+                        cfgInfo.ThresholdSBD );
+                }
+                else
+                {
+                    mComputerVisionManager.setSCIMFeatureTracker(
+                        cfgInfo.AreaTracking,
+                        cfgInfo.MinPoints,
+                        cfgInfo.ActivateSBD,
+                        cfgInfo.ThresholdSBD,
+                        cfgInfo.MaxDistAnchorInterframe);
+                }
 
                 if (fromDevice)
                     mComputerVisionManager.startVideoProcessorFromDevice(device, cfgInfo.CaptureFrameSize, cfgInfo.CaptureFrameRate, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize );
