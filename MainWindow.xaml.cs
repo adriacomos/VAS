@@ -101,6 +101,20 @@ namespace VAS
 
         void mComputerVisionManager_OnKeyboardEvent(object sender, KeyboardEvtArgs e)
         {
+            this.Dispatcher.Invoke(delegate()
+            {
+                const int KeyQ = 113;
+                const int KeyA = 97;
+
+                switch (e.KbCode)
+                {
+                    case KeyQ:
+                        ShowOut("AnchorInfo1"); break;
+                    case KeyA:
+                        HideOut("AnchorInfo1"); break;
+
+                }
+            });
         }
 
 
@@ -284,31 +298,39 @@ namespace VAS
 
 
 
-
-        private void Anchor_Checked(object sender, RoutedEventArgs e)
+        private void ShowOut( string name )
         {
             try
             {
-                mGraphicsService.UserCommandParser.NewCommand("AnchorInfo1", "Show()", "");
+                mGraphicsService.UserCommandParser.NewCommand(name, "Show()", "");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+        }
 
+        private void HideOut( string name )
+        {
+            try
+            {
+                mGraphicsService.UserCommandParser.NewCommand(name, "Hide()", "");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
+        private void Anchor_Checked(object sender, RoutedEventArgs e)
+        {
+            ShowOut("AnchorInfo1");
         }
 
         private void Anchor_Unchecked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                mGraphicsService.UserCommandParser.NewCommand("AnchorInfo1", "Hide()", "");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
+            HideOut("AnchorInfo1");
         }
 
         private void Anchor2_Checked(object sender, RoutedEventArgs e)
@@ -321,7 +343,6 @@ namespace VAS
             {
                 Console.WriteLine(ex.Message);
             }
-
         }
 
         private void Anchor3_Checked(object sender, RoutedEventArgs e)
