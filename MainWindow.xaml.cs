@@ -19,6 +19,7 @@ using cvfn;
 using System.Text.RegularExpressions;
 using VAS.Properties;
 using System.Threading;
+using System.ComponentModel;
 
 
 
@@ -27,10 +28,18 @@ namespace VAS
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
 
         Timer readStateTimer;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        bool _activateSCIM;
+        public bool ActivateSCIM { 
+            get { return _activateSCIM; } 
+            set { _activateSCIM = value; OnPropertyChanged("ActivateSCIM"); } 
+        }
 
         class ConfigInfo
         {
@@ -44,6 +53,7 @@ namespace VAS
             public cvfn.Size2D CaptureFrameSize;
             public double CaptureFrameRate;
             public uint MaxDistAnchorInterframe;
+            public uint SendDataDelay;
         }
 
         bool mSliderUpdateByFilm = false;
@@ -51,11 +61,17 @@ namespace VAS
         IGraphicsService mGraphicsService;
         IComputerVisionManager mComputerVisionManager; // = new ComputerVisionManager();
 
+
+
+
+
         public MainWindow()
         {
             InitializeComponent();
             
             mComputerVisionManager = new ComputerVisionManager();
+
+            mComputerVisionManager.OnKeyboardEvent += mComputerVisionManager_OnKeyboardEvent;
 
             TxtTCPAddress.Text = Settings.Default.TCPAddress;
             TxtUDPAddress.Text = Settings.Default.UDPAddress;
@@ -77,7 +93,30 @@ namespace VAS
             TxtCaptureResolution.Text = Settings.Default.CaptureResolution;
             TxtCaptureFrameRate.Text = Settings.Default.CaptureFrameRate.ToString("N2");
             TxtInterFrameAnchorDisp.Text = Settings.Default.MaxAnchorDisplacement.ToString();
+            TxtSendDataDelay.Text = Settings.Default.SendDataDelay.ToString();
+
+            ActivateSCIM = Settings.Default.ActivateSCIM;
+
         }
+
+        void mComputerVisionManager_OnKeyboardEvent(object sender, KeyboardEvtArgs e)
+        {
+        }
+
+
+
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            var propertyChanged = PropertyChanged;
+            if (propertyChanged != null)
+            {
+                propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+
+
 
 
         public void connectVIZ( string tcpadd, string udpadd, int tcpport, int udpport ) {
@@ -91,7 +130,7 @@ namespace VAS
             string sceneName = TxtScene.Text;
 
             mGraphicsService = GraphicsServiceVAS0Factory.Create(paramsVIZ, sceneName, mComputerVisionManager);
-
+                        
             mGraphicsService.RenderEngine.CommandValueSentEvent += RenderEngine_CommandValueSentEvent;
             mGraphicsService.RenderEngine.CommandAnimationSentEvent += RenderEngine_CommandAnimationSentEvent;
 
@@ -219,6 +258,10 @@ namespace VAS
             cf.CaptureFrameRate = captureRate;
 
 
+            uint sendDataDelay;
+            UInt32.TryParse( TxtSendDataDelay.Text, out sendDataDelay );
+
+
             if (errMessage != "")
             {
                 MessageBox.Show(errMessage);
@@ -233,6 +276,7 @@ namespace VAS
             cf.ActivateSBD = sbd;
             cf.ThresholdSBD = sbdThreshold;
             cf.MaxDistAnchorInterframe = maxDistAnchorInterframe;
+            cf.SendDataDelay = sendDataDelay;
 
 
             return true;
@@ -332,7 +376,7 @@ namespace VAS
 
             if (getAndValidateConfig(cfgInfo))
             {
-                if (!ChkSCIM.IsChecked.Value)
+                if (!ActivateSCIM)
                 {
                     mComputerVisionManager.setSingleFeatureTracker(cfgInfo.ProcessorTech,
                         cfgInfo.AreaTracking,
@@ -367,11 +411,15 @@ namespace VAS
             Settings.Default.FrameWorkingSize = TxtResizeAt.Text;
             Settings.Default.CaptureResolution = TxtCaptureResolution.Text;
             Settings.Default.CaptureFrameRate = cfgInfo.CaptureFrameRate;
+            Settings.Default.SendDataDelay = cfgInfo.SendDataDelay;
+            Settings.Default.ActivateSCIM = ActivateSCIM;
             Settings.Default.Save();
 
 
             StartTracker.Content = "Stop Tracker";
 
+
+            GraphismVAS0.GraphismVAS2015_0.SendDataDelay = cfgInfo.SendDataDelay;
             readStateTimer = new Timer(readStateCallback, null, 0, 250);
 
             ChkAnchor.IsEnabled = true;
@@ -510,6 +558,20 @@ namespace VAS
         }
 
         private void ChkSCIM_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TxtSendDataDelay_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            uint dataDelay;
+
+            UInt32.TryParse(TxtSendDataDelay.Text, out dataDelay);
+
+            GraphismVAS0.GraphismVAS2015_0.SendDataDelay = dataDelay;
+        }
+
+        private void MainWindow1_KeyDown(object sender, KeyEventArgs e)
         {
 
         }

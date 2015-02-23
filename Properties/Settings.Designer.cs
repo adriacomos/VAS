@@ -214,5 +214,29 @@ namespace VAS.Properties {
                 this["MaxAnchorDisplacement"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public long SendDataDelay {
+            get {
+                return ((long)(this["SendDataDelay"]));
+            }
+            set {
+                this["SendDataDelay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ActivateSCIM {
+            get {
+                return ((bool)(this["ActivateSCIM"]));
+            }
+            set {
+                this["ActivateSCIM"] = value;
+            }
+        }
     }
 }

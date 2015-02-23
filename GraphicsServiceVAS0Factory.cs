@@ -19,7 +19,7 @@ namespace VAS
 {
     class GraphicsServiceVAS0Factory
     {
-
+        static public GraphismVAS2015_0 TheGraphism { get; protected set; }
 
         internal static IGraphicsService Create( ParamsCreateScreenVIZ vizParams, string sceneName, IComputerVisionManager cvManager )
         {
@@ -29,7 +29,8 @@ namespace VAS
             IUserCommandParser userCommandParser = new UserCommandParser();
             IOutputsSettings outputsSettings = new OutputsSettings();
 
-            IGraphism theGraphism = new GraphismVAS2015_0( renderEngine, cvManager );
+            GraphismVAS2015_0 theGraphism = new GraphismVAS2015_0(renderEngine, cvManager);
+            TheGraphism = theGraphism;
 
             return new GraphicsServiceBasic(userCommandParser, theGraphism, renderEngine, outputsSettings);
         }
