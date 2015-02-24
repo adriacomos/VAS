@@ -35,6 +35,8 @@ namespace VAS
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        // A partir de este dato, se ha empezado a utilizar los bindings
+        // TODO: Ir pasando todos los datos
         bool _activateSCIM;
         public bool ActivateSCIM { 
             get { return _activateSCIM; } 
@@ -68,6 +70,17 @@ namespace VAS
         public MainWindow()
         {
             InitializeComponent();
+
+            if (Settings.Default.SettingsUpgradeRequired)
+            {
+                Settings.Default.Upgrade();
+                Settings.Default.SettingsUpgradeRequired = false;
+                Settings.Default.Save();
+            }
+
+
+            this.Title = "Video Analyzer System - Prototype v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
             
             mComputerVisionManager = new ComputerVisionManager();
 
@@ -105,6 +118,10 @@ namespace VAS
             {
                 const int KeyQ = 113;
                 const int KeyA = 97;
+                const int KeyW = 119;
+                const int KeyE = 115;
+                const int KeyS = 101;
+                const int KeyD = 100;
 
                 switch (e.KbCode)
                 {
@@ -112,6 +129,14 @@ namespace VAS
                         ShowOut("AnchorInfo1"); break;
                     case KeyA:
                         HideOut("AnchorInfo1"); break;
+                    case KeyW:
+                        ShowOut("AnchorInfo2"); break;
+                    case KeyE:
+                        HideOut("AnchorInfo2"); break;
+                    case KeyS:
+                        ShowOut("AnchorInfo3"); break;
+                    case KeyD:
+                        HideOut("AnchorInfo3"); break;
 
                 }
             });
@@ -279,6 +304,7 @@ namespace VAS
             if (errMessage != "")
             {
                 MessageBox.Show(errMessage);
+                return false;
             }
 
             
@@ -335,53 +361,22 @@ namespace VAS
 
         private void Anchor2_Checked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                mGraphicsService.UserCommandParser.NewCommand("AnchorInfo2", "Show()", "");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            ShowOut("AnchorInfo2");
         }
 
         private void Anchor3_Checked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                mGraphicsService.UserCommandParser.NewCommand("AnchorInfo3", "Show()", "");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
+            ShowOut("AnchorInfo3");
         }
 
         private void Anchor2_Unchecked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                mGraphicsService.UserCommandParser.NewCommand("AnchorInfo2", "Hide()", "");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
+            HideOut("AnchorInfo2");
         }
 
         private void Anchor3_Unchecked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                mGraphicsService.UserCommandParser.NewCommand("AnchorInfo3", "Hide()", "");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
+            HideOut("AnchorInfo3");
         }
 
         private void StartTracker_Checked(object sender, RoutedEventArgs e)
@@ -403,7 +398,7 @@ namespace VAS
                         cfgInfo.AreaTracking,
                         cfgInfo.MinPoints,
                         cfgInfo.ActivateSBD,
-                        cfgInfo.ThresholdSBD );
+                        cfgInfo.ThresholdSBD);
                 }
                 else
                 {
@@ -416,9 +411,23 @@ namespace VAS
                 }
 
                 if (fromDevice)
-                    mComputerVisionManager.startVideoProcessorFromDevice(device, cfgInfo.CaptureFrameSize, cfgInfo.CaptureFrameRate, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize );
+                    mComputerVisionManager.startVideoProcessorFromDevice(device, cfgInfo.CaptureFrameSize, cfgInfo.CaptureFrameRate, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize);
                 else
-                    mComputerVisionManager.startVideoProcessorFromFile(fileName, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize );
+                    mComputerVisionManager.startVideoProcessorFromFile(fileName, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize);
+
+
+                StartTracker.Content = "Stop Tracker";
+
+                GraphismVAS0.GraphismVAS2015_0.SendDataDelay = cfgInfo.SendDataDelay;
+                readStateTimer = new Timer(readStateCallback, null, 0, 250);
+
+                ChkAnchor.IsEnabled = true;
+                ChkAnchor2.IsEnabled = true;
+                ChkAnchor3.IsEnabled = true;
+            }
+            else
+            {
+                StartTracker.IsChecked = false;
             }
 
             
@@ -437,15 +446,6 @@ namespace VAS
             Settings.Default.Save();
 
 
-            StartTracker.Content = "Stop Tracker";
-
-
-            GraphismVAS0.GraphismVAS2015_0.SendDataDelay = cfgInfo.SendDataDelay;
-            readStateTimer = new Timer(readStateCallback, null, 0, 250);
-
-            ChkAnchor.IsEnabled = true;
-            ChkAnchor2.IsEnabled = true;
-            ChkAnchor3.IsEnabled = true;
             
 
         }
@@ -592,9 +592,11 @@ namespace VAS
             GraphismVAS0.GraphismVAS2015_0.SendDataDelay = dataDelay;
         }
 
-        private void MainWindow1_KeyDown(object sender, KeyEventArgs e)
+        
+        private void MainWindow1_Closing(object sender, CancelEventArgs e)
         {
-
+            mComputerVisionManager.stopVideoProcessor();
+           
         }
 
  
