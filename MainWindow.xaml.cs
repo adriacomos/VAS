@@ -43,6 +43,21 @@ namespace VAS
             set { _activateSCIM = value; OnPropertyChanged("ActivateSCIM"); } 
         }
 
+
+        private double _sendDelay;
+        public double SendDelay
+        {
+            get { return _sendDelay; }
+            set
+            {
+                if (_sendDelay == value)
+                    return;
+
+                _sendDelay = value;
+                OnPropertyChanged("SendDelay");
+            }
+        }
+
         class ConfigInfo
         {
             public cvfn.ProcessorTechnology ProcessorTech;
@@ -55,7 +70,6 @@ namespace VAS
             public cvfn.Size2D CaptureFrameSize;
             public double CaptureFrameRate;
             public uint MaxDistAnchorInterframe;
-            public uint SendDataDelay;
         }
 
         bool mSliderUpdateByFilm = false;
@@ -106,7 +120,10 @@ namespace VAS
             TxtCaptureResolution.Text = Settings.Default.CaptureResolution;
             TxtCaptureFrameRate.Text = Settings.Default.CaptureFrameRate.ToString("N2");
             TxtInterFrameAnchorDisp.Text = Settings.Default.MaxAnchorDisplacement.ToString();
-            TxtSendDataDelay.Text = Settings.Default.SendDataDelay.ToString();
+
+
+            //TxtSendDataDelay.Text = Settings.Default.SendDataDelay.ToString();
+            SendDelay = Settings.Default.SendDataDelay;
 
             ActivateSCIM = Settings.Default.ActivateSCIM;
 
@@ -296,10 +313,7 @@ namespace VAS
             Double.TryParse(TxtCaptureFrameRate.Text, out captureRate);
             cf.CaptureFrameRate = captureRate;
 
-
-            uint sendDataDelay;
-            UInt32.TryParse( TxtSendDataDelay.Text, out sendDataDelay );
-
+                        
 
             if (errMessage != "")
             {
@@ -316,7 +330,6 @@ namespace VAS
             cf.ActivateSBD = sbd;
             cf.ThresholdSBD = sbdThreshold;
             cf.MaxDistAnchorInterframe = maxDistAnchorInterframe;
-            cf.SendDataDelay = sendDataDelay;
 
 
             return true;
@@ -418,7 +431,7 @@ namespace VAS
 
                 StartTracker.Content = "Stop Tracker";
 
-                GraphismVAS0.GraphismVAS2015_0.SendDataDelay = cfgInfo.SendDataDelay;
+                GraphismVAS0.GraphismVAS2015_0.SendDataDelay = (uint)SendDelay;
                 readStateTimer = new Timer(readStateCallback, null, 0, 250);
 
                 ChkAnchor.IsEnabled = true;
@@ -441,7 +454,7 @@ namespace VAS
             Settings.Default.FrameWorkingSize = TxtResizeAt.Text;
             Settings.Default.CaptureResolution = TxtCaptureResolution.Text;
             Settings.Default.CaptureFrameRate = cfgInfo.CaptureFrameRate;
-            Settings.Default.SendDataDelay = cfgInfo.SendDataDelay;
+            Settings.Default.SendDataDelay = (uint)SendDelay;
             Settings.Default.ActivateSCIM = ActivateSCIM;
             Settings.Default.Save();
 
@@ -585,18 +598,48 @@ namespace VAS
 
         private void TxtSendDataDelay_TextChanged(object sender, TextChangedEventArgs e)
         {
-            uint dataDelay;
+            double dataDelay;
 
-            UInt32.TryParse(TxtSendDataDelay.Text, out dataDelay);
+            double.TryParse(TxtSendDataDelay.Text, out dataDelay);
 
-            GraphismVAS0.GraphismVAS2015_0.SendDataDelay = dataDelay;
+            GraphismVAS0.GraphismVAS2015_0.SendDataDelay = (uint)dataDelay;
         }
 
         
         private void MainWindow1_Closing(object sender, CancelEventArgs e)
         {
+            if (readStateTimer != null)
+            {
+                readStateTimer.Dispose();
+                readStateTimer = null;
+            }
+
+            // Grabamos los settings que se pueden haber modificado DURANTE el tracking
+            Settings.Default.SendDataDelay = (uint)SendDelay;
+            Settings.Default.Save();
+
             mComputerVisionManager.stopVideoProcessor();
            
+        }
+
+        private void MainWindow1_Closed(object sender, EventArgs e)
+        {
+            if (readStateTimer != null)
+            {
+                readStateTimer.Dispose();
+                readStateTimer = null;
+            }
+
+        }
+
+        private void MainWindow1_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (readStateTimer != null)
+            {
+                readStateTimer.Dispose();
+                readStateTimer = null;
+            }
+
         }
 
  
