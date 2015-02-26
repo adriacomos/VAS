@@ -407,11 +407,20 @@ namespace VAS
             {
                 if (!ActivateSCIM)
                 {
+                    /*
                     mComputerVisionManager.setSingleFeatureTracker(cfgInfo.ProcessorTech,
                         cfgInfo.AreaTracking,
                         cfgInfo.MinPoints,
                         cfgInfo.ActivateSBD,
-                        cfgInfo.ThresholdSBD);
+                        cfgInfo.ThresholdSBD);*/
+                    mComputerVisionManager.setSCIMPathTracer(
+                        cfgInfo.AreaTracking,
+                        cfgInfo.MinPoints,
+                        cfgInfo.ActivateSBD,
+                        cfgInfo.ThresholdSBD,
+                        cfgInfo.MaxDistAnchorInterframe);
+                     
+                    
                 }
                 else
                 {
