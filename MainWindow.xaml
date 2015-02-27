@@ -8,7 +8,7 @@
         <GroupBox Header="Info" HorizontalAlignment="Left" Height="106" Margin="317,10,0,0" VerticalAlignment="Top" Width="176"/>
 
         <GroupBox Header="Source" HorizontalAlignment="Left" Height="170" Margin="21,121,0,0" VerticalAlignment="Top" Width="472"/>
-        <ToggleButton x:Name="StartTracker" Content="Start Tracker" HorizontalAlignment="Left" Margin="36,551,0,0" VerticalAlignment="Top" Width="114" Click="Button_Click" Checked="StartTracker_Checked" Unchecked="StartTracker_Unchecked" IsEnabled="False" Height="34"/>
+        <ToggleButton x:Name="StartTracker" Content="Start Tracker" HorizontalAlignment="Left" Margin="36,551,0,0" VerticalAlignment="Top" Width="114" Click="Button_Click" Checked="StartTracker_Checked" Unchecked="StartTracker_Unchecked" Height="34"/>
         <TextBlock x:Name="TxtAnchorPt" Margin="185,567,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" RenderTransformOrigin="-0.3,0.625" Height="41" Background="#FFE4E4E4" HorizontalAlignment="Left" Width="308"/>
         <ToggleButton x:Name="ChkAnchor" Content="Show Anchor 1" HorizontalAlignment="Left" Margin="34,602,0,0" VerticalAlignment="Top" Width="91" Checked="Anchor_Checked" Unchecked="Anchor_Unchecked" IsEnabled="False"/>
         <ToggleButton x:Name="ChkAnchor2" Content="Show Anchor 2" HorizontalAlignment="Left" Margin="34,629,0,0" VerticalAlignment="Top" Width="91" Checked="Anchor2_Checked" Unchecked="Anchor2_Unchecked" IsEnabled="False"/>

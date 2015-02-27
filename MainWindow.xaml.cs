@@ -78,7 +78,7 @@ namespace VAS
         IComputerVisionManager mComputerVisionManager; // = new ComputerVisionManager();
 
 
-
+        UniversalNETCom.UniversalNETCom mUnc;
 
 
         public MainWindow()
@@ -92,6 +92,15 @@ namespace VAS
                 Settings.Default.Save();
             }
 
+
+            ServiceProvider.ServiceProviderUDPMulticast telNET = new ServiceProvider.ServiceProviderUDPMulticast(IPAddress.Parse("225.0.140.1"), 11972);
+
+            telNET.Start();
+
+            mUnc = new UniversalNETCom.UniversalNETCom( new CLProtocol.Codecs.CodecTXTSerial_02(),
+                                                        telNET);
+            
+            
 
             this.Title = "Video Analyzer System - Prototype v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
@@ -255,7 +264,7 @@ namespace VAS
             uint maxDistAnchorInterframe;
             UInt32.TryParse(TxtInterFrameAnchorDisp.Text, out maxDistAnchorInterframe);
 
-
+            
 
             double sbdThreshold = 0.0;
             bool sbd = false;
@@ -413,7 +422,15 @@ namespace VAS
                         cfgInfo.MinPoints,
                         cfgInfo.ActivateSBD,
                         cfgInfo.ThresholdSBD);*/
+                    /*
                     mComputerVisionManager.setSCIMPathTracer(
+                        cfgInfo.AreaTracking,
+                        cfgInfo.MinPoints,
+                        cfgInfo.ActivateSBD,
+                        cfgInfo.ThresholdSBD,
+                        cfgInfo.MaxDistAnchorInterframe);*/
+
+                    mComputerVisionManager.setSCIMDualFeatureTracker(
                         cfgInfo.AreaTracking,
                         cfgInfo.MinPoints,
                         cfgInfo.ActivateSBD,
@@ -486,9 +503,12 @@ namespace VAS
                 TxtPotentialFR.Content = pfr.ToString();
                 TxtAverageFrameTime.Content = avg.ToString("N2");
 
+                dynamic d = mUnc.getData();
+
                 mSliderUpdateByFilm = true;
                 SlVideoProgression.Value = pct;
                 mSliderUpdateByFilm = false;
+
             });
         }
 
