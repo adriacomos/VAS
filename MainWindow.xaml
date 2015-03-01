@@ -8,12 +8,12 @@
         <GroupBox Header="Info" HorizontalAlignment="Left" Height="106" Margin="317,10,0,0" VerticalAlignment="Top" Width="176"/>
 
         <GroupBox Header="Source" HorizontalAlignment="Left" Height="170" Margin="21,121,0,0" VerticalAlignment="Top" Width="472"/>
-        <ToggleButton x:Name="StartTracker" Content="Start Tracker" HorizontalAlignment="Left" Margin="36,551,0,0" VerticalAlignment="Top" Width="114" Click="Button_Click" Checked="StartTracker_Checked" Unchecked="StartTracker_Unchecked" Height="34"/>
-        <TextBlock x:Name="TxtAnchorPt" Margin="185,567,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" RenderTransformOrigin="-0.3,0.625" Height="41" Background="#FFE4E4E4" HorizontalAlignment="Left" Width="308"/>
-        <ToggleButton x:Name="ChkAnchor" Content="Show Anchor 1" HorizontalAlignment="Left" Margin="34,602,0,0" VerticalAlignment="Top" Width="91" Checked="Anchor_Checked" Unchecked="Anchor_Unchecked" IsEnabled="False"/>
-        <ToggleButton x:Name="ChkAnchor2" Content="Show Anchor 2" HorizontalAlignment="Left" Margin="34,629,0,0" VerticalAlignment="Top" Width="91" Checked="Anchor2_Checked" Unchecked="Anchor2_Unchecked" IsEnabled="False"/>
-        <ToggleButton x:Name="ChkAnchor3" Content="Show Anchor 3" HorizontalAlignment="Left" Margin="34,656,0,0" VerticalAlignment="Top" Width="91" Checked="Anchor3_Checked" Unchecked="Anchor3_Unchecked" IsEnabled="False"/>
-        <ListBox x:Name="LstCommands" Margin="185,613,0,0" Height="282" VerticalAlignment="Top" HorizontalAlignment="Left" Width="308"/>
+        <ToggleButton x:Name="StartTracker" Content="Start Tracker" HorizontalAlignment="Left" Margin="36,637,0,0" VerticalAlignment="Top" Width="114" Click="Button_Click" Checked="StartTracker_Checked" Unchecked="StartTracker_Unchecked" Height="34"/>
+        <TextBlock x:Name="TxtAnchorPt" Margin="188,637,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" RenderTransformOrigin="-0.3,0.625" Height="41" Background="#FFE4E4E4" HorizontalAlignment="Left" Width="308"/>
+        <ToggleButton x:Name="ChkAnchor" Content="Show Anchor 1" HorizontalAlignment="Left" Margin="34,688,0,0" VerticalAlignment="Top" Width="91" Checked="Anchor_Checked" Unchecked="Anchor_Unchecked" IsEnabled="False"/>
+        <ToggleButton x:Name="ChkAnchor2" Content="Show Anchor 2" HorizontalAlignment="Left" Margin="34,715,0,0" VerticalAlignment="Top" Width="91" Checked="Anchor2_Checked" Unchecked="Anchor2_Unchecked" IsEnabled="False"/>
+        <ToggleButton x:Name="ChkAnchor3" Content="Show Anchor 3" HorizontalAlignment="Left" Margin="34,742,0,0" VerticalAlignment="Top" Width="91" Checked="Anchor3_Checked" Unchecked="Anchor3_Unchecked" IsEnabled="False"/>
+        <ListBox x:Name="LstCommands" Margin="188,688,0,0" Height="207" VerticalAlignment="Top" HorizontalAlignment="Left" Width="308"/>
         <Label Content="Area Tracking:" HorizontalAlignment="Left" Height="26" Margin="31,398,0,0" VerticalAlignment="Top" Width="87"/>
         <Label Content="Min Points" HorizontalAlignment="Left" Height="26" Margin="31,424,0,0" VerticalAlignment="Top" Width="87"/>
         <Label Content="Processor" HorizontalAlignment="Left" Height="26" Margin="31,372,0,0" VerticalAlignment="Top" Width="87"/>
@@ -42,7 +42,7 @@
         <Label Content="TCP" HorizontalAlignment="Left" Height="26" Margin="34,56,0,0" VerticalAlignment="Top" Width="36"/>
         <Label Content="UDP" HorizontalAlignment="Left" Height="26" Margin="34,81,0,0" VerticalAlignment="Top" Width="36"/>
         <TextBox x:Name="TxtScene" HorizontalAlignment="Left" Height="26" Margin="36,30,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="268"/>
-        <Button x:Name="Help" Content="Help" Height="26" Margin="385,536,0,0" VerticalAlignment="Top" Click="Help_Click" HorizontalAlignment="Left" Width="108"/>
+        <Button x:Name="Help" Content="Help" Height="26" Margin="385,594,0,0" VerticalAlignment="Top" Click="Help_Click" HorizontalAlignment="Left" Width="108"/>
         <CheckBox x:Name="ChkResize" Content="Resize at:" HorizontalAlignment="Left" Height="20" Margin="28,344,0,0" VerticalAlignment="Top" Width="91"/>
         <TextBox x:Name="TxtResizeAt" HorizontalAlignment="Left" Height="23" Margin="124,344,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="87"/>
         <Slider x:Name="SlVideoProgression" HorizontalAlignment="Left" Height="23" Margin="35,173,0,0" VerticalAlignment="Top" Width="431" Maximum="1" SmallChange="0.001" ValueChanged="SlVideoProgression_ValueChanged"/>

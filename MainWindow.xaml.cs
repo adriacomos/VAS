@@ -78,7 +78,7 @@ namespace VAS
         IComputerVisionManager mComputerVisionManager; // = new ComputerVisionManager();
 
 
-        UniversalNETCom.UniversalNETCom mUnc;
+//        UniversalNETCom.UniversalNETCom mUnc;
 
 
         public MainWindow()
@@ -97,8 +97,8 @@ namespace VAS
 
             telNET.Start();
 
-            mUnc = new UniversalNETCom.UniversalNETCom( new CLProtocol.Codecs.CodecTXTSerial_02(),
-                                                        telNET);
+ //           mUnc = new UniversalNETCom.UniversalNETCom( new CLProtocol.Codecs.CodecTXTSerial_02(),
+ //                                                       telNET);
             
             
 
@@ -206,9 +206,9 @@ namespace VAS
         {
             this.Dispatcher.Invoke(delegate()
             {
-                int MAXITEMS = 100;
+                int MAXITEMS = 25;
 
-                this.LstCommands.Items.Insert(0, e.Name);
+                this.LstCommands.Items.Add(e.Name);
 
                 while (this.LstCommands.Items.Count >= MAXITEMS)
                     this.LstCommands.Items.RemoveAt(MAXITEMS - 1);
@@ -429,13 +429,18 @@ namespace VAS
                         cfgInfo.ActivateSBD,
                         cfgInfo.ThresholdSBD,
                         cfgInfo.MaxDistAnchorInterframe);*/
-
+                    /*
                     mComputerVisionManager.setSCIMDualFeatureTracker(
                         cfgInfo.AreaTracking,
                         cfgInfo.MinPoints,
                         cfgInfo.ActivateSBD,
                         cfgInfo.ThresholdSBD,
-                        cfgInfo.MaxDistAnchorInterframe);
+                        cfgInfo.MaxDistAnchorInterframe);*/
+
+                    mComputerVisionManager.setCCFeatureTracker(
+                        cfgInfo.AreaTracking,
+                        cfgInfo.MinPoints,
+                        cfgInfo.ActivateSBD);
                      
                     
                 }
@@ -503,7 +508,7 @@ namespace VAS
                 TxtPotentialFR.Content = pfr.ToString();
                 TxtAverageFrameTime.Content = avg.ToString("N2");
 
-                dynamic d = mUnc.getData();
+//                dynamic d = mUnc.getData();
 
                 mSliderUpdateByFilm = true;
                 SlVideoProgression.Value = pct;
