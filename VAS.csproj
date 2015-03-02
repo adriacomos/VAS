@@ -72,9 +72,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CLProtocol, Version=14.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="CLProtocol, Version=14.9.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>3Party\CLProtocol.dll</HintPath>
+      <HintPath>..\..\UniversalNETCom\UniversalNETCom\3Party\CLProtocol.dll</HintPath>
     </Reference>
     <Reference Include="GraphicsService, Version=15.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -78,7 +78,7 @@ namespace VAS
         IComputerVisionManager mComputerVisionManager; // = new ComputerVisionManager();
 
 
-//        UniversalNETCom.UniversalNETCom mUnc;
+        //UniversalNETCom.UniversalNETCom mUnc;
 
 
         public MainWindow()
@@ -93,12 +93,10 @@ namespace VAS
             }
 
 
-            ServiceProvider.ServiceProviderUDPMulticast telNET = new ServiceProvider.ServiceProviderUDPMulticast(IPAddress.Parse("225.0.140.1"), 11972);
-
-            telNET.Start();
-
- //           mUnc = new UniversalNETCom.UniversalNETCom( new CLProtocol.Codecs.CodecTXTSerial_02(),
- //                                                       telNET);
+            /*ServiceProvider.ServiceProviderUDPMulticast v = new ServiceProvider.ServiceProviderUDPMulticast(IPAddress.Parse("225.0.140.1"), 11972);
+            telemetryNET.Start();
+            mUnc = new UniversalNETCom.UniversalNETCom( new CLProtocol.Codecs.CodecTXTSerial_02(),
+                                                        telemetryNET);*/
             
             
 
@@ -508,7 +506,7 @@ namespace VAS
                 TxtPotentialFR.Content = pfr.ToString();
                 TxtAverageFrameTime.Content = avg.ToString("N2");
 
-//                dynamic d = mUnc.getData();
+                //dynamic d = mUnc.getData();
 
                 mSliderUpdateByFilm = true;
                 SlVideoProgression.Value = pct;
