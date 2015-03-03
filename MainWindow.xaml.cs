@@ -453,7 +453,16 @@ namespace VAS
                 }
 
                 if (fromDevice)
-                    mComputerVisionManager.startVideoProcessorFromDevice(device, cfgInfo.CaptureFrameSize, cfgInfo.CaptureFrameRate, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize);
+                {
+                    if (!ChkDecklink.IsChecked.Value)
+                    {
+                        mComputerVisionManager.startVideoProcessorFromDevice(device, cfgInfo.CaptureFrameSize, cfgInfo.CaptureFrameRate, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize);
+                    }
+                    else
+                    {
+                        mComputerVisionManager.startVideoProcessorFromDecklinkDevice(cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize);
+                    }
+                }
                 else
                     mComputerVisionManager.startVideoProcessorFromFile(fileName, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize);
 
@@ -674,7 +683,7 @@ namespace VAS
 
         }
 
- 
+        
 
 
     }

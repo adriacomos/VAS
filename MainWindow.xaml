@@ -7,25 +7,27 @@
 
         <GroupBox Header="Info" HorizontalAlignment="Left" Height="106" Margin="317,10,0,0" VerticalAlignment="Top" Width="176"/>
 
-        <GroupBox Header="Source" HorizontalAlignment="Left" Height="170" Margin="21,121,0,0" VerticalAlignment="Top" Width="472"/>
+        <GroupBox Header="Source" HorizontalAlignment="Left" Height="197" Margin="21,121,0,0" VerticalAlignment="Top" Width="472">
+            <CheckBox x:Name="ChkDecklink" Content="Decklink" HorizontalAlignment="Left" Height="19" Margin="10,152,0,0" VerticalAlignment="Top" Width="90" IsChecked="True"/>
+        </GroupBox>
         <ToggleButton x:Name="StartTracker" Content="Start Tracker" HorizontalAlignment="Left" Margin="36,637,0,0" VerticalAlignment="Top" Width="114" Click="Button_Click" Checked="StartTracker_Checked" Unchecked="StartTracker_Unchecked" Height="34"/>
         <TextBlock x:Name="TxtAnchorPt" Margin="188,637,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" RenderTransformOrigin="-0.3,0.625" Height="41" Background="#FFE4E4E4" HorizontalAlignment="Left" Width="308"/>
         <ToggleButton x:Name="ChkAnchor" Content="Show Anchor 1" HorizontalAlignment="Left" Margin="34,688,0,0" VerticalAlignment="Top" Width="91" Checked="Anchor_Checked" Unchecked="Anchor_Unchecked" IsEnabled="False"/>
         <ToggleButton x:Name="ChkAnchor2" Content="Show Anchor 2" HorizontalAlignment="Left" Margin="34,715,0,0" VerticalAlignment="Top" Width="91" Checked="Anchor2_Checked" Unchecked="Anchor2_Unchecked" IsEnabled="False"/>
         <ToggleButton x:Name="ChkAnchor3" Content="Show Anchor 3" HorizontalAlignment="Left" Margin="34,742,0,0" VerticalAlignment="Top" Width="91" Checked="Anchor3_Checked" Unchecked="Anchor3_Unchecked" IsEnabled="False"/>
         <ListBox x:Name="LstCommands" Margin="188,688,0,0" Height="207" VerticalAlignment="Top" HorizontalAlignment="Left" Width="308"/>
-        <Label Content="Area Tracking:" HorizontalAlignment="Left" Height="26" Margin="31,398,0,0" VerticalAlignment="Top" Width="87"/>
-        <Label Content="Min Points" HorizontalAlignment="Left" Height="26" Margin="31,424,0,0" VerticalAlignment="Top" Width="87"/>
-        <Label Content="Processor" HorizontalAlignment="Left" Height="26" Margin="31,372,0,0" VerticalAlignment="Top" Width="87"/>
-        <ComboBox x:Name="CmbProcTech" HorizontalAlignment="Left" Height="26" Margin="123,372,0,0" VerticalAlignment="Top" Width="87" SelectedIndex="1">
+        <Label Content="Area Tracking:" HorizontalAlignment="Left" Height="26" Margin="37,418,0,0" VerticalAlignment="Top" Width="87"/>
+        <Label Content="Min Points" HorizontalAlignment="Left" Height="26" Margin="37,444,0,0" VerticalAlignment="Top" Width="87"/>
+        <Label Content="Processor" HorizontalAlignment="Left" Height="26" Margin="37,392,0,0" VerticalAlignment="Top" Width="87"/>
+        <ComboBox x:Name="CmbProcTech" HorizontalAlignment="Left" Height="26" Margin="129,392,0,0" VerticalAlignment="Top" Width="87" SelectedIndex="1">
             <ComboBoxItem Content="CPU" HorizontalAlignment="Left" Width="88"/>
             <ComboBoxItem Content="GPU" HorizontalAlignment="Left" Width="88"/>
         </ComboBox>
-        <CheckBox x:Name="ChkActivateSBD" Content="Activate SBD" HorizontalAlignment="Left" Margin="35,458,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,-0.75" Width="93" Checked="ChkActivateSBD_Checked" Unchecked="ChkActivateSBD_Unchecked"/>
-        <TextBox x:Name="TxtAreaTracking" HorizontalAlignment="Left" Height="21" Margin="123,403,0,0" TextWrapping="Wrap" Text="75,75" VerticalAlignment="Top" Width="87"/>
-        <TextBox x:Name="TxtMinPoints" HorizontalAlignment="Left" Height="21" Margin="123,429,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="45"/>
-        <Label Content="SBD Threshold [1-0]" HorizontalAlignment="Left" Height="26" Margin="58,482,0,0" VerticalAlignment="Top" Width="112"/>
-        <TextBox x:Name="TxtSBDThreshold" HorizontalAlignment="Left" Height="23" Margin="175,485,0,0" TextWrapping="Wrap" Text="0.7" VerticalAlignment="Top" Width="32" SelectionOpacity="4" IsEnabled="False"/>
+        <CheckBox x:Name="ChkActivateSBD" Content="Activate SBD" HorizontalAlignment="Left" Margin="41,478,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,-0.75" Width="93" Checked="ChkActivateSBD_Checked" Unchecked="ChkActivateSBD_Unchecked"/>
+        <TextBox x:Name="TxtAreaTracking" HorizontalAlignment="Left" Height="21" Margin="129,423,0,0" TextWrapping="Wrap" Text="75,75" VerticalAlignment="Top" Width="87"/>
+        <TextBox x:Name="TxtMinPoints" HorizontalAlignment="Left" Height="21" Margin="129,449,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="45"/>
+        <Label Content="SBD Threshold [1-0]" HorizontalAlignment="Left" Height="26" Margin="64,502,0,0" VerticalAlignment="Top" Width="112"/>
+        <TextBox x:Name="TxtSBDThreshold" HorizontalAlignment="Left" Height="23" Margin="181,505,0,0" TextWrapping="Wrap" Text="0.7" VerticalAlignment="Top" Width="32" SelectionOpacity="4" IsEnabled="False"/>
         <TextBox x:Name="TxtTCPAddress" HorizontalAlignment="Left" Height="20" Margin="75,62,0,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top" Width="98"/>
         <TextBox x:Name="TxtUDPAddress" HorizontalAlignment="Left" Height="20" Margin="75,87,0,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top" Width="98"/>
         <TextBox x:Name="TxtTCPPort" HorizontalAlignment="Left" Height="20" Margin="178,62,0,0" TextWrapping="Wrap" Text="80" VerticalAlignment="Top" Width="42"/>
@@ -43,24 +45,24 @@
         <Label Content="UDP" HorizontalAlignment="Left" Height="26" Margin="34,81,0,0" VerticalAlignment="Top" Width="36"/>
         <TextBox x:Name="TxtScene" HorizontalAlignment="Left" Height="26" Margin="36,30,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="268"/>
         <Button x:Name="Help" Content="Help" Height="26" Margin="385,594,0,0" VerticalAlignment="Top" Click="Help_Click" HorizontalAlignment="Left" Width="108"/>
-        <CheckBox x:Name="ChkResize" Content="Resize at:" HorizontalAlignment="Left" Height="20" Margin="28,344,0,0" VerticalAlignment="Top" Width="91"/>
-        <TextBox x:Name="TxtResizeAt" HorizontalAlignment="Left" Height="23" Margin="124,344,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="87"/>
+        <CheckBox x:Name="ChkResize" Content="Resize at:" HorizontalAlignment="Left" Height="20" Margin="34,364,0,0" VerticalAlignment="Top" Width="91"/>
+        <TextBox x:Name="TxtResizeAt" HorizontalAlignment="Left" Height="23" Margin="130,364,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="87"/>
         <Slider x:Name="SlVideoProgression" HorizontalAlignment="Left" Height="23" Margin="35,173,0,0" VerticalAlignment="Top" Width="431" Maximum="1" SmallChange="0.001" ValueChanged="SlVideoProgression_ValueChanged"/>
-        <CheckBox x:Name="ChkPointDisplacementCtrl" Content="Points Dispersion Control (*)" HorizontalAlignment="Left" Margin="247,395,0,0" VerticalAlignment="Top" Width="185" IsEnabled="False"/>
-        <Label Content="Absolute" HorizontalAlignment="Left" Height="26" Margin="269,415,0,0" VerticalAlignment="Top" Width="58" IsEnabled="False"/>
-        <Label Content="Relative" HorizontalAlignment="Left" Height="26" Margin="269,441,0,0" VerticalAlignment="Top" Width="58" IsEnabled="False"/>
-        <TextBox x:Name="TxtAbsoluteDispersion" HorizontalAlignment="Left" Height="21" Margin="332,420,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" IsEnabled="False"/>
-        <TextBox x:Name="TxtRelativeDispersion" HorizontalAlignment="Left" Height="21" Margin="332,446,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" IsEnabled="False"/>
-        <TextBox x:Name="TxtInterFrameAnchorDisp" HorizontalAlignment="Left" Height="21" Margin="417,343,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="42" TextChanged="TxtInterFrameAnchorDisp_TextChanged"/>
-        <Label Content="(*)GPU only" HorizontalAlignment="Left" Height="25" Margin="247,313,0,0" VerticalAlignment="Top" Width="105" IsEnabled="False"/>
+        <CheckBox x:Name="ChkPointDisplacementCtrl" Content="Points Dispersion Control (*)" HorizontalAlignment="Left" Margin="253,415,0,0" VerticalAlignment="Top" Width="185" IsEnabled="False"/>
+        <Label Content="Absolute" HorizontalAlignment="Left" Height="26" Margin="275,435,0,0" VerticalAlignment="Top" Width="58" IsEnabled="False"/>
+        <Label Content="Relative" HorizontalAlignment="Left" Height="26" Margin="275,461,0,0" VerticalAlignment="Top" Width="58" IsEnabled="False"/>
+        <TextBox x:Name="TxtAbsoluteDispersion" HorizontalAlignment="Left" Height="21" Margin="338,440,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" IsEnabled="False"/>
+        <TextBox x:Name="TxtRelativeDispersion" HorizontalAlignment="Left" Height="21" Margin="338,466,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" IsEnabled="False"/>
+        <TextBox x:Name="TxtInterFrameAnchorDisp" HorizontalAlignment="Left" Height="21" Margin="423,363,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="42" TextChanged="TxtInterFrameAnchorDisp_TextChanged"/>
+        <Label Content="(*)GPU only" HorizontalAlignment="Left" Height="25" Margin="253,333,0,0" VerticalAlignment="Top" Width="105" IsEnabled="False"/>
         <Button x:Name="BtFileDialog" Content="..." HorizontalAlignment="Left" Height="23" Margin="421,146,0,0" VerticalAlignment="Top" Width="45" Click="BtFileDialog_Click"/>
         <TextBox x:Name="TxtCaptureResolution" HorizontalAlignment="Left" Height="25" Margin="225,253,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="113"/>
         <Label Content="Resolution" HorizontalAlignment="Left" Height="25" Margin="153,251,0,0" VerticalAlignment="Top" Width="67"/>
         <Label Content="Frame Rate" HorizontalAlignment="Left" Height="25" Margin="343,251,0,0" VerticalAlignment="Top" Width="71"/>
         <TextBox x:Name="TxtCaptureFrameRate" HorizontalAlignment="Left" Height="25" Margin="414,253,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="52"/>
         <ToggleButton x:Name="BtnPausePlay" Content="Pause" HorizontalAlignment="Left" Height="22" Margin="36,201,0,0" VerticalAlignment="Top" Width="46" RenderTransformOrigin="0.478,0.455" Checked="BtnPausePlay_Checked" Unchecked="BtnPausePlay_Unchecked"/>
-        <Label Content="Max Anchor Displacement(*)" HorizontalAlignment="Left" Height="26" Margin="247,340,0,0" VerticalAlignment="Top" Width="165" RenderTransformOrigin="2.989,-0.462"/>
-        <CheckBox x:Name="ChkSCIM" Content="SCIM" HorizontalAlignment="Left" Margin="28,313,0,0" VerticalAlignment="Top" IsChecked="{Binding ElementName=MainWindow1, Path=ActivateSCIM, Mode=TwoWay}"/>
+        <Label Content="Max Anchor Displacement(*)" HorizontalAlignment="Left" Height="26" Margin="253,360,0,0" VerticalAlignment="Top" Width="165" RenderTransformOrigin="2.989,-0.462"/>
+        <CheckBox x:Name="ChkSCIM" Content="SCIM" HorizontalAlignment="Left" Margin="34,333,0,0" VerticalAlignment="Top" IsChecked="{Binding ElementName=MainWindow1, Path=ActivateSCIM, Mode=TwoWay}"/>
         <TextBox x:Name="TxtSendDataDelay" HorizontalAlignment="Left" Height="23" Margin="105,872,0,0" TextWrapping="Wrap" Text="{Binding ElementName=MainWindow1, StringFormat=N2, Path=SendDelay, Mode=TwoWay}" VerticalAlignment="Top" Width="65" TextChanged="TxtSendDataDelay_TextChanged"/>
         <Label Content="Send delay" HorizontalAlignment="Left" Height="32" Margin="21,868,0,0" VerticalAlignment="Top" Width="70"/>
         <Slider HorizontalAlignment="Left" Height="23" Margin="21,905,0,0" VerticalAlignment="Top" Width="472" Maximum="2000" SmallChange="1" Value="{Binding ElementName=MainWindow1, Path=SendDelay, Mode=TwoWay}"/>
