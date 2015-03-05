@@ -460,7 +460,7 @@ namespace VAS
                     }
                     else
                     {
-                        mComputerVisionManager.startVideoProcessorFromDecklinkDevice(cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize);
+                        mComputerVisionManager.startVideoProcessorFromDecklinkDevice( cfgInfo.CaptureFrameSize, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize);
                     }
                 }
                 else
