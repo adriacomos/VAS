@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="980.612" Width="516" Closing="MainWindow1_Closing" Closed="MainWindow1_Closed" Unloaded="MainWindow1_Unloaded">
     <Grid Margin="0,0,2,0" >
-        <GroupBox Header="VIZ" HorizontalAlignment="Left" Height="106" Margin="21,10,0,0" VerticalAlignment="Top" Width="291"/>
+        <GroupBox Header="VIZ" HorizontalAlignment="Left" Height="106" Margin="19,30,0,0" VerticalAlignment="Top" Width="291"/>
 
-        <GroupBox Header="Info" HorizontalAlignment="Left" Height="106" Margin="317,10,0,0" VerticalAlignment="Top" Width="176"/>
+        <GroupBox Header="Info" HorizontalAlignment="Left" Height="126" Margin="317,10,0,0" VerticalAlignment="Top" Width="176"/>
 
         <CheckBox x:Name="ChkDecklink" Content="Activate Decklink Routines" HorizontalAlignment="Left" Height="19" Margin="35,283,0,0" VerticalAlignment="Top" Width="187" IsChecked="True"/>
         <ToggleButton x:Name="StartTracker" Content="Start Tracker" HorizontalAlignment="Left" Margin="36,637,0,0" VerticalAlignment="Top" Width="114" Click="Button_Click" Checked="StartTracker_Checked" Unchecked="StartTracker_Unchecked" Height="34"/>
@@ -26,22 +26,22 @@
         <TextBox x:Name="TxtMinPoints" HorizontalAlignment="Left" Height="21" Margin="129,469,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="45"/>
         <Label Content="SBD Threshold [1-0]" HorizontalAlignment="Left" Height="26" Margin="64,522,0,0" VerticalAlignment="Top" Width="112"/>
         <TextBox x:Name="TxtSBDThreshold" HorizontalAlignment="Left" Height="23" Margin="181,525,0,0" TextWrapping="Wrap" Text="0.7" VerticalAlignment="Top" Width="32" SelectionOpacity="4" IsEnabled="False"/>
-        <TextBox x:Name="TxtTCPAddress" HorizontalAlignment="Left" Height="20" Margin="75,62,0,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top" Width="98"/>
-        <TextBox x:Name="TxtUDPAddress" HorizontalAlignment="Left" Height="20" Margin="75,87,0,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top" Width="98"/>
-        <TextBox x:Name="TxtTCPPort" HorizontalAlignment="Left" Height="20" Margin="178,62,0,0" TextWrapping="Wrap" Text="80" VerticalAlignment="Top" Width="42"/>
-        <TextBox x:Name="TxtUDPPort" HorizontalAlignment="Left" Height="20" Margin="178,87,0,0" TextWrapping="Wrap" Text="80" VerticalAlignment="Top" Width="42"/>
-        <Button x:Name="ChkConnectVIZ" Content="Connect VIZ" HorizontalAlignment="Left" Height="45" Margin="233,62,0,0" VerticalAlignment="Top" Width="71" RenderTransformOrigin="0.302,0.494" Click="ChkConnectVIZ_Click"/>
-        <Label Content="FR Potencial:" HorizontalAlignment="Left" Margin="332,50,0,0" VerticalAlignment="Top" Height="26" Width="78"/>
-        <Label x:Name="TxtPotentialFR" Content="0" HorizontalAlignment="Left" Margin="434,50,0,0" VerticalAlignment="Top" Width="49"/>
-        <Label Content="Avg Frame Time:" HorizontalAlignment="Left" Margin="332,81,0,0" VerticalAlignment="Top" Height="26" Width="99"/>
-        <Label x:Name="TxtAverageFrameTime" Content="0" HorizontalAlignment="Left" Margin="434,81,0,0" VerticalAlignment="Top" Width="49"/>
+        <TextBox x:Name="TxtTCPAddress" HorizontalAlignment="Left" Height="20" Margin="73,82,0,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top" Width="98"/>
+        <TextBox x:Name="TxtUDPAddress" HorizontalAlignment="Left" Height="20" Margin="73,107,0,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top" Width="98"/>
+        <TextBox x:Name="TxtTCPPort" HorizontalAlignment="Left" Height="20" Margin="176,82,0,0" TextWrapping="Wrap" Text="80" VerticalAlignment="Top" Width="42"/>
+        <TextBox x:Name="TxtUDPPort" HorizontalAlignment="Left" Height="20" Margin="176,107,0,0" TextWrapping="Wrap" Text="80" VerticalAlignment="Top" Width="42"/>
+        <Button x:Name="ChkConnectVIZ" Content="Connect VIZ" HorizontalAlignment="Left" Height="45" Margin="231,82,0,0" VerticalAlignment="Top" Width="71" RenderTransformOrigin="0.302,0.494" Click="ChkConnectVIZ_Click"/>
+        <Label Content="FR Pot:" HorizontalAlignment="Left" Margin="328,76,0,0" VerticalAlignment="Top" Height="26" Width="69"/>
+        <Label x:Name="TxtPotentialFR" Content="0" HorizontalAlignment="Left" Margin="402,76,0,0" VerticalAlignment="Top" Width="36"/>
+        <Label Content="Frame Tim:" HorizontalAlignment="Left" Margin="328,107,0,0" VerticalAlignment="Top" Height="26" Width="69"/>
+        <Label x:Name="TxtAverageFrameTime" Content="0" HorizontalAlignment="Left" Margin="402,107,0,0" VerticalAlignment="Top" Width="36"/>
         <TextBox x:Name="TxtFileName" HorizontalAlignment="Left" Height="22" Margin="108,146,0,0" Text="TextBox" VerticalAlignment="Top" Width="306" TextWrapping="Wrap" ForceCursor="True"/>
         <TextBox x:Name="TxtDeviceNumber" HorizontalAlignment="Left" Height="25" Margin="124,253,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="24"/>
         <RadioButton x:Name="RadFromFile" Content="From File" GroupName="Source" HorizontalAlignment="Left" Margin="35,150,0,0" VerticalAlignment="Top" IsChecked="True"/>
         <RadioButton x:Name="RadFromDevice" Content="From Device" GroupName="Source" HorizontalAlignment="Left" Margin="34,256,0,0" VerticalAlignment="Top" IsChecked="True"/>
-        <Label Content="TCP" HorizontalAlignment="Left" Height="26" Margin="34,56,0,0" VerticalAlignment="Top" Width="36"/>
-        <Label Content="UDP" HorizontalAlignment="Left" Height="26" Margin="34,81,0,0" VerticalAlignment="Top" Width="36"/>
-        <TextBox x:Name="TxtScene" HorizontalAlignment="Left" Height="26" Margin="36,30,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="268"/>
+        <Label Content="TCP" HorizontalAlignment="Left" Height="26" Margin="32,76,0,0" VerticalAlignment="Top" Width="36"/>
+        <Label Content="UDP" HorizontalAlignment="Left" Height="26" Margin="32,101,0,0" VerticalAlignment="Top" Width="36"/>
+        <TextBox x:Name="TxtScene" HorizontalAlignment="Left" Height="26" Margin="34,50,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="268"/>
         <Button x:Name="Help" Content="Help" Height="26" Margin="388,525,0,0" VerticalAlignment="Top" Click="Help_Click" HorizontalAlignment="Left" Width="108"/>
         <CheckBox x:Name="ChkResize" Content="Resize at:" HorizontalAlignment="Left" Height="20" Margin="34,384,0,0" VerticalAlignment="Top" Width="91"/>
         <TextBox x:Name="TxtResizeAt" HorizontalAlignment="Left" Height="23" Margin="130,384,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="87"/>
@@ -66,6 +66,8 @@
         <Slider HorizontalAlignment="Left" Height="23" Margin="21,905,0,0" VerticalAlignment="Top" Width="472" Maximum="2000" SmallChange="1" Value="{Binding ElementName=MainWindow1, Path=SendDelay, Mode=TwoWay}"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="1" Margin="13,585,0,0" Stroke="Black" VerticalAlignment="Top" Width="483"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="1" Margin="13,332,0,0" Stroke="Black" VerticalAlignment="Top" Width="483"/>
+        <Label Content="Debug" HorizontalAlignment="Left" Margin="328,30,0,0" VerticalAlignment="Top" Height="26" Width="45"/>
+        <Label x:Name="TxtDebugInfo" Content="0" HorizontalAlignment="Left" Margin="378,30,0,0" VerticalAlignment="Top" Width="105" RenderTransformOrigin="-0.318,0.5"/>
 
     </Grid>
 </Window>

@@ -509,11 +509,18 @@ namespace VAS
                 double avg = mComputerVisionManager.getAverageFrameTime();
                 double pct = mComputerVisionManager.getRelativeVideoProgression();
 
+                double readTime = mComputerVisionManager.getAverageGetFrameTime();
+                double processTime = mComputerVisionManager.getAverageProcessTime();
+                double waitingTime = mComputerVisionManager.getAverageWaitingTime();
+
+
                 Dictionary<string, string> debugInfo = mComputerVisionManager.getDebugInfo();
 
 
                 TxtPotentialFR.Content = pfr.ToString();
                 TxtAverageFrameTime.Content = avg.ToString("N2");
+
+                TxtDebugInfo.Content = readTime.ToString("N1") + " / " + processTime.ToString("N1") + " / " + waitingTime.ToString("N1"); 
 
                 //dynamic d = mUnc.getData();
 
