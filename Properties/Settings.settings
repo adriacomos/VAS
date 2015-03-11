@@ -59,5 +59,8 @@
     <Setting Name="SettingsUpgradeRequired" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="DefaultSceneToReload" Type="System.String" Scope="User">
+      <Value Profile="(Default)">/MotoGP/Scenes/2015</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

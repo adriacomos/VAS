@@ -20,6 +20,9 @@ using System.Text.RegularExpressions;
 using VAS.Properties;
 using System.Threading;
 using System.ComponentModel;
+using RenderEngineVIZ;
+using RenderEngineVIZ.CommandSenderVIZ;
+using RenderEngineVIZ.CommandSender;
 
 
 
@@ -38,9 +41,17 @@ namespace VAS
         // A partir de este dato, se ha empezado a utilizar los bindings
         // TODO: Ir pasando todos los datos
         bool _activateSCIM;
-        public bool ActivateSCIM { 
-            get { return _activateSCIM; } 
-            set { _activateSCIM = value; OnPropertyChanged("ActivateSCIM"); } 
+        public bool ActivateSCIM
+        {
+            get { return _activateSCIM; }
+            set { _activateSCIM = value; OnPropertyChanged("ActivateSCIM"); }
+        }
+
+        string _defaultSceneToReload;
+        public string DefaultSceneToReload
+        {
+            get { return _defaultSceneToReload; }
+            set { _defaultSceneToReload = value; OnPropertyChanged("DefaultSceneToReload"); }
         }
 
 
@@ -97,12 +108,12 @@ namespace VAS
             telemetryNET.Start();
             mUnc = new UniversalNETCom.UniversalNETCom( new CLProtocol.Codecs.CodecTXTSerial_02(),
                                                         telemetryNET);*/
-            
-            
+
+
 
             this.Title = "Video Analyzer System - Prototype v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            
+
             mComputerVisionManager = new ComputerVisionManager();
 
             mComputerVisionManager.OnKeyboardEvent += mComputerVisionManager_OnKeyboardEvent;
@@ -132,6 +143,8 @@ namespace VAS
             //TxtSendDataDelay.Text = Settings.Default.SendDataDelay.ToString();
             SendDelay = Settings.Default.SendDataDelay;
 
+            DefaultSceneToReload = Settings.Default.DefaultSceneToReload;
+
             ActivateSCIM = Settings.Default.ActivateSCIM;
 
         }
@@ -143,29 +156,76 @@ namespace VAS
                 const int KeyQ = 113;
                 const int KeyA = 97;
                 const int KeyW = 119;
-                const int KeyE = 115;
-                const int KeyS = 101;
+                const int KeyE = 101;
+                const int KeyS = 115;
                 const int KeyD = 100;
+
+
+                const int KeyR = 114;
+                const int KeyT = 116;
+                const int KeyY = 121;
+                const int KeyU = 117;
+                const int KeyI = 105;
+                const int KeyO = 111;
+                const int KeyP = 112;
+
+                const int KeyF = 102;
+                const int KeyG = 103;
+                const int KeyH = 104;
+                const int KeyJ = 106;
+                const int KeyK = 107;
+                const int KeyL = 108;
+                const int KeyÑ = 241;
+
 
                 switch (e.KbCode)
                 {
                     case KeyQ:
-                        ShowOut("AnchorInfo1"); break;
+                        onKey( Key.Q ); break;
                     case KeyA:
-                        HideOut("AnchorInfo1"); break;
+                        onKey( Key.A ); break;
                     case KeyW:
-                        ShowOut("AnchorInfo2"); break;
+                        onKey( Key.W ); break;
                     case KeyE:
-                        HideOut("AnchorInfo2"); break;
+                        onKey( Key.E ); break;
                     case KeyS:
-                        ShowOut("AnchorInfo3"); break;
+                        onKey( Key.S ); break;
                     case KeyD:
-                        HideOut("AnchorInfo3"); break;
+                        onKey( Key.D ); break;
+                    case KeyR:
+                        onKey(Key.R); break;
+                    case KeyT:
+                        onKey(Key.T); break;
+                    case KeyY:
+                        onKey(Key.Y); break;
+                    case KeyU:
+                        onKey(Key.U); break;
+                    case KeyI:
+                        onKey(Key.I); break;
+                    case KeyO:
+                        onKey(Key.O); break;
+                    case KeyP:
+                        onKey(Key.P); break;
+                    case KeyF:
+                        onKey(Key.F); break;
+                    case KeyG:
+                        onKey(Key.G); break;
+                    case KeyH:
+                        onKey(Key.H); break;
+                    case KeyJ:
+                        onKey(Key.J); break;
+                    case KeyK:
+                        onKey(Key.K); break;
+                    case KeyL:
+                        onKey(Key.L); break;
+                    case KeyÑ:
+                        onKey(Key.Oem3 ); break;
+
+                    
 
                 }
             });
         }
-
 
 
 
@@ -182,18 +242,19 @@ namespace VAS
 
 
 
-        public void connectVIZ( string tcpadd, string udpadd, int tcpport, int udpport ) {
-        
+        public void connectVIZ(string tcpadd, string udpadd, int tcpport, int udpport)
+        {
+
             ParamsCreateScreenVIZ paramsVIZ = new ParamsCreateScreenVIZ(
-                IPAddress.Parse( tcpadd ),
+                IPAddress.Parse(tcpadd),
                 tcpport,
-                IPAddress.Parse( udpadd ),
-                udpport );
+                IPAddress.Parse(udpadd),
+                udpport);
 
             string sceneName = TxtScene.Text;
 
             mGraphicsService = GraphicsServiceVAS0Factory.Create(paramsVIZ, sceneName, mComputerVisionManager);
-                        
+
             mGraphicsService.RenderEngine.CommandValueSentEvent += RenderEngine_CommandValueSentEvent;
             mGraphicsService.RenderEngine.CommandAnimationSentEvent += RenderEngine_CommandAnimationSentEvent;
 
@@ -243,11 +304,12 @@ namespace VAS
                 sizeAreaTracking = Array.ConvertAll(areaInput.Split(','), int.Parse);
             }
 
-            
-            int minPoints;
-            Int32.TryParse( TxtMinPoints.Text, out minPoints );
 
-            if (minPoints < 3) {
+            int minPoints;
+            Int32.TryParse(TxtMinPoints.Text, out minPoints);
+
+            if (minPoints < 3)
+            {
                 errMessage += "MinPoints debe ser mayor de 2 \n";
             }
 
@@ -262,7 +324,7 @@ namespace VAS
             uint maxDistAnchorInterframe;
             UInt32.TryParse(TxtInterFrameAnchorDisp.Text, out maxDistAnchorInterframe);
 
-            
+
 
             double sbdThreshold = 0.0;
             bool sbd = false;
@@ -301,12 +363,12 @@ namespace VAS
 
 
             string captureSize = TxtCaptureResolution.Text;
-           
+
             int[] captureFrameSize = new int[2];
             if (!Regex.IsMatch(captureSize, @"^[0-9]+,([0-9]+){1}$"))
             {
                 if (RadFromDevice.IsChecked.Value) // sólo informar si ha sido seleccionado
-                {  
+                {
                     errMessage += "Capture Resolution debe ser Width,Height \n";
                 }
             }
@@ -320,7 +382,7 @@ namespace VAS
             Double.TryParse(TxtCaptureFrameRate.Text, out captureRate);
             cf.CaptureFrameRate = captureRate;
 
-                        
+
 
             if (errMessage != "")
             {
@@ -328,12 +390,12 @@ namespace VAS
                 return false;
             }
 
-            
+
             cf.ProcessorTech = ptech;
             cf.MinPoints = (uint)minPoints;
             cf.AreaTracking = new cvfn.Rect(400, 400, sizeAreaTracking[0], sizeAreaTracking[1]);
             cf.ResizeFrame = resizeFrame;
-            cf.ResizeFrameSize = new cvfn.Size2D( sizeFrame[0], sizeFrame[1] );
+            cf.ResizeFrameSize = new cvfn.Size2D(sizeFrame[0], sizeFrame[1]);
             cf.ActivateSBD = sbd;
             cf.ThresholdSBD = sbdThreshold;
             cf.MaxDistAnchorInterframe = maxDistAnchorInterframe;
@@ -344,7 +406,7 @@ namespace VAS
 
 
 
-        private void ShowOut( string name )
+        private void ShowOut(string name)
         {
             try
             {
@@ -356,7 +418,7 @@ namespace VAS
             }
         }
 
-        private void HideOut( string name )
+        private void HideOut(string name)
         {
             try
             {
@@ -414,33 +476,13 @@ namespace VAS
             {
                 if (!ActivateSCIM)
                 {
-                    /*
-                    mComputerVisionManager.setSingleFeatureTracker(cfgInfo.ProcessorTech,
-                        cfgInfo.AreaTracking,
-                        cfgInfo.MinPoints,
-                        cfgInfo.ActivateSBD,
-                        cfgInfo.ThresholdSBD);*/
-                    /*
-                    mComputerVisionManager.setSCIMPathTracer(
-                        cfgInfo.AreaTracking,
-                        cfgInfo.MinPoints,
-                        cfgInfo.ActivateSBD,
-                        cfgInfo.ThresholdSBD,
-                        cfgInfo.MaxDistAnchorInterframe);*/
-                    /*
-                    mComputerVisionManager.setSCIMDualFeatureTracker(
-                        cfgInfo.AreaTracking,
-                        cfgInfo.MinPoints,
-                        cfgInfo.ActivateSBD,
-                        cfgInfo.ThresholdSBD,
-                        cfgInfo.MaxDistAnchorInterframe);*/
 
                     mComputerVisionManager.setCCFeatureTracker(
                         cfgInfo.AreaTracking,
                         cfgInfo.MinPoints,
                         cfgInfo.ActivateSBD);
-                     
-                    
+
+
                 }
                 else
                 {
@@ -460,7 +502,7 @@ namespace VAS
                     }
                     else
                     {
-                        //mComputerVisionManager.startVideoProcessorFromDecklinkDevice( cfgInfo.CaptureFrameSize, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize);
+                        mComputerVisionManager.startVideoProcessorFromDecklinkDevice(cfgInfo.CaptureFrameSize, cfgInfo.ResizeFrame, cfgInfo.ResizeFrameSize);
                     }
                 }
                 else
@@ -481,7 +523,7 @@ namespace VAS
                 StartTracker.IsChecked = false;
             }
 
-            
+
             Settings.Default.AnchorSize = TxtAreaTracking.Text;
             Settings.Default.SBDActive = ChkActivateSBD.IsChecked.Value;
             Settings.Default.SBDThreshold = cfgInfo.ThresholdSBD;
@@ -497,7 +539,7 @@ namespace VAS
             Settings.Default.Save();
 
 
-            
+
 
         }
 
@@ -520,7 +562,7 @@ namespace VAS
                 TxtPotentialFR.Content = pfr.ToString();
                 TxtAverageFrameTime.Content = avg.ToString("N2");
 
-                TxtDebugInfo.Content = readTime.ToString("N1") + " / " + processTime.ToString("N1") + " / " + waitingTime.ToString("N1"); 
+                TxtDebugInfo.Content = readTime.ToString("N1") + " / " + processTime.ToString("N1") + " / " + waitingTime.ToString("N1");
 
                 //dynamic d = mUnc.getData();
 
@@ -539,8 +581,8 @@ namespace VAS
             ChkAnchor.IsEnabled = false;
             ChkAnchor2.IsEnabled = false;
             ChkAnchor3.IsEnabled = false;
-            
-            
+
+
         }
 
         private void ChkConnectVIZ_Click(object sender, RoutedEventArgs e)
@@ -549,18 +591,18 @@ namespace VAS
             Int32.TryParse(TxtTCPPort.Text, out tcpPort);
             Int32.TryParse(TxtUDPPort.Text, out udpPort);
 
-            connectVIZ(TxtTCPAddress.Text, TxtUDPAddress.Text, tcpPort, udpPort);
-
             Settings.Default.TCPAddress = TxtTCPAddress.Text;
             Settings.Default.UDPAddress = TxtUDPAddress.Text;
             Settings.Default.TCPPort = tcpPort;
             Settings.Default.UDPPort = udpPort;
             Settings.Default.VIZSceneName = TxtScene.Text;
+            Settings.Default.DefaultSceneToReload = TxtSceneReload.Text;
 
             Settings.Default.Save();
 
-            
-            enableStartTrack( true );
+            connectVIZ(TxtTCPAddress.Text, TxtUDPAddress.Text, tcpPort, udpPort);
+
+            enableStartTrack(true);
         }
 
 
@@ -601,7 +643,7 @@ namespace VAS
         private void BtFileDialog_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            
+
             // Set filter for file extension and default file extension 
             dlg.Filter = "Clip (*.avi;*.mov;*.mp4)|*.avi;*.mov;*.mp4";
 
@@ -619,7 +661,7 @@ namespace VAS
             }
         }
 
-        
+
         private void BtnPausePlay_Checked(object sender, RoutedEventArgs e)
         {
             BtnPausePlay.Content = "Play";
@@ -627,7 +669,7 @@ namespace VAS
             mComputerVisionManager.pause(true);
         }
 
-        
+
         private void BtnPausePlay_Unchecked(object sender, RoutedEventArgs e)
         {
             BtnPausePlay.Content = "Pause";
@@ -653,7 +695,7 @@ namespace VAS
             GraphismVAS0.GraphismVAS2015_0.SendDataDelay = (uint)dataDelay;
         }
 
-        
+
         private void MainWindow1_Closing(object sender, CancelEventArgs e)
         {
             if (readStateTimer != null)
@@ -667,7 +709,7 @@ namespace VAS
             Settings.Default.Save();
 
             mComputerVisionManager.stopVideoProcessor();
-           
+
         }
 
         private void MainWindow1_Closed(object sender, EventArgs e)
@@ -690,8 +732,81 @@ namespace VAS
 
         }
 
-        
+        private void MainWindow1_KeyDown(object sender, KeyEventArgs e)
+        {
+            onKey(e.Key);
+        }
 
 
+        void onKey(Key thekey)
+        {
+            this.Dispatcher.Invoke(delegate()
+            {
+                switch (thekey)
+                {
+                    case Key.Q:
+                        ShowOut("AnchorInfo1"); break;
+                    case Key.A:
+                        HideOut("AnchorInfo1"); break;
+                    case Key.W:
+                        ShowOut("AnchorInfo2"); break;
+                    case Key.S:
+                        HideOut("AnchorInfo2"); break;
+                    case Key.E:
+                        ShowOut("AnchorInfo3"); break;
+                    case Key.D:
+                        HideOut("AnchorInfo3"); break;
+
+                    case Key.R:
+                        ShowOut("AnchorInfo4"); break;
+                    case Key.T:
+                        ShowOut("AnchorInfo5"); break;
+                    case Key.Y:
+                        ShowOut("AnchorInfo6"); break;
+                    case Key.U:
+                        ShowOut("AnchorInfo7"); break;
+                    case Key.I:
+                        ShowOut("AnchorInfo8"); break;
+                    case Key.O:
+                        ShowOut("AnchorInfo9"); break;
+                    case Key.P:
+                        ShowOut("AnchorInfo10"); break;
+                    case Key.F:
+                        HideOut("AnchorInfo4"); break;
+                    case Key.G:
+                        HideOut("AnchorInfo5"); break;
+                    case Key.H:
+                        HideOut("AnchorInfo6"); break;
+                    case Key.J:
+                        HideOut("AnchorInfo7"); break;
+                    case Key.K:
+                        HideOut("AnchorInfo8"); break;
+                    case Key.L:
+                        HideOut("AnchorInfo9"); break;
+                    case Key.Oem3:
+                        HideOut("AnchorInfo10"); break;
+
+                }
+            });
+
+        }
+
+        private void BtnReloadScene_Click(object sender, RoutedEventArgs e)
+        {
+            enableStartTrack(false);
+
+            Settings.Default.DefaultSceneToReload = TxtSceneReload.Text;
+            Settings.Default.Save();
+
+
+            if (mGraphicsService != null)
+            {
+                IRenderEngineVIZ reVIZ = mGraphicsService.RenderEngine as IRenderEngineVIZ;
+                ICommandSenderVIZ cmsVIZ = reVIZ.CommandSender as ICommandSenderVIZ;
+
+                ISceneParams theParam = new SceneParamsVIZ() { Layer = "", Name = TxtSceneReload.Text };
+                cmsVIZ.LoadScene(theParam, "");
+            }
+        }
     }
 }

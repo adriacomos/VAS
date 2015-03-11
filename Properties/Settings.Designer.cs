@@ -250,5 +250,17 @@ namespace VAS.Properties {
                 this["SettingsUpgradeRequired"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("/MotoGP/Scenes/2015")]
+        public string DefaultSceneToReload {
+            get {
+                return ((string)(this["DefaultSceneToReload"]));
+            }
+            set {
+                this["DefaultSceneToReload"] = value;
+            }
+        }
     }
 }
