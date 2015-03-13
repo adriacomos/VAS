@@ -54,6 +54,12 @@ namespace VAS
             set { _defaultSceneToReload = value; OnPropertyChanged("DefaultSceneToReload"); }
         }
 
+        string _sceneTracking;
+        public string SceneTrackingMode
+        {
+            get { return _sceneTracking; }
+            set { _sceneTracking = value; OnPropertyChanged("SceneTrackingMode"); }
+        }
 
         private double _sendDelay;
         public double SendDelay
@@ -146,6 +152,8 @@ namespace VAS
             DefaultSceneToReload = Settings.Default.DefaultSceneToReload;
 
             ActivateSCIM = Settings.Default.ActivateSCIM;
+
+            SceneTrackingMode = Settings.Default.SceneTrackingMode;
 
         }
 
@@ -253,12 +261,19 @@ namespace VAS
 
             string sceneName = TxtScene.Text;
 
+            if (mGraphicsService != null)
+            {
+                mGraphicsService.Stop();
+                mGraphicsService = null;
+            }
+            
             mGraphicsService = GraphicsServiceVAS0Factory.Create(paramsVIZ, sceneName, mComputerVisionManager);
 
             mGraphicsService.RenderEngine.CommandValueSentEvent += RenderEngine_CommandValueSentEvent;
             mGraphicsService.RenderEngine.CommandAnimationSentEvent += RenderEngine_CommandAnimationSentEvent;
 
             mGraphicsService.Start();
+            
         }
 
         void RenderEngine_CommandAnimationSentEvent(object sender, RenderEngine.Events.NewAnimationArgs e)
@@ -706,6 +721,9 @@ namespace VAS
 
             // Grabamos los settings que se pueden haber modificado DURANTE el tracking
             Settings.Default.SendDataDelay = (uint)SendDelay;
+            Settings.Default.SceneTrackingMode = SceneTrackingMode;
+            Settings.Default.DefaultSceneToReload = DefaultSceneToReload;
+
             Settings.Default.Save();
 
             mComputerVisionManager.stopVideoProcessor();
@@ -807,6 +825,25 @@ namespace VAS
                 ISceneParams theParam = new SceneParamsVIZ() { Layer = "", Name = TxtSceneReload.Text };
                 cmsVIZ.LoadScene(theParam, "");
             }
+        }
+
+        private void BtnTrackingMode_Click(object sender, RoutedEventArgs e)
+        {
+            enableStartTrack(true);
+
+            Settings.Default.SceneTrackingMode = TxtSceneTrackingMode.Text;
+            Settings.Default.Save();
+
+
+            if (mGraphicsService != null)
+            {
+                IRenderEngineVIZ reVIZ = mGraphicsService.RenderEngine as IRenderEngineVIZ;
+                ICommandSenderVIZ cmsVIZ = reVIZ.CommandSender as ICommandSenderVIZ;
+
+                ISceneParams theParam = new SceneParamsVIZ() { Layer = "", Name = TxtSceneTrackingMode.Text };
+                cmsVIZ.LoadScene(theParam, "");
+            }
+
         }
     }
 }

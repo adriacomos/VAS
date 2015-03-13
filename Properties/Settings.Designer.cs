@@ -262,5 +262,17 @@ namespace VAS.Properties {
                 this["DefaultSceneToReload"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("/MotoGP/Scenes/AnchorScn")]
+        public string SceneTrackingMode {
+            get {
+                return ((string)(this["SceneTrackingMode"]));
+            }
+            set {
+                this["SceneTrackingMode"] = value;
+            }
+        }
     }
 }
